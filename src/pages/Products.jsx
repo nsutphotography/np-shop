@@ -12,7 +12,11 @@ const Products = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/products/get-all');
+                const response = await axios.get('http://localhost:3000/products/get-all',{
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                      },
+                });
                 setProductData(response.data); // Assuming response.data contains an array of products
                 console.log('Products:', response.data);
                 console.log('Product ID:', response.data[0]._id);
@@ -39,7 +43,7 @@ const Products = () => {
             const response = await axios.post(
                 'http://localhost:3000/cart/add',
                 {
-                    userId,
+                    // userId,
                     productId,
                     quantity,
                 },
@@ -92,7 +96,7 @@ const Products = () => {
                             <CardMedia component="img" height="140" image={product.image} alt={product.name} />
                             <CardContent>
                                 <Typography variant="h6">{product.name}</Typography>
-                                <Typography variant="body2">{product._Id}</Typography>
+                                <Typography variant="body2">{product._id}</Typography>
                                 <Typography variant="body2">{product.price}</Typography>
                                 <Typography variant="body2">{product.description}</Typography>
                                 <Button

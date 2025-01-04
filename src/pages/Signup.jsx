@@ -14,7 +14,7 @@ const Signup = () => {
     setSuccess(null); // Clear any previous success messages
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { email, password });
+      const response = await axios.post('http://localhost:3000/user/signup', { email, password });
       console.log('Registration successful:', response.data);
 
       // Set success message
