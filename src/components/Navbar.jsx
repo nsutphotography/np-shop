@@ -58,6 +58,9 @@ const Navbar = () => {
             <MenuItem component={Link} to="/signup" onClick={handleMenuClose}>
               Sign Up
             </MenuItem>
+            <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
+              Profile
+            </MenuItem>
           </Menu>
         </div>
       </Toolbar>
