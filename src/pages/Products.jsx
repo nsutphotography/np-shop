@@ -12,10 +12,10 @@ const Products = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/products/get-all',{
+                const response = await axios.get('http://localhost:3000/products/get-all', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
-                      },
+                    },
                 });
                 setProductData(response.data); // Assuming response.data contains an array of products
                 console.log('Products:', response.data);
@@ -33,12 +33,12 @@ const Products = () => {
 
     const handleAddToCart = async (productId) => {
         const token = localStorage.getItem('token'); // Retrieve the token from local storage
-    
+
         if (!token) {
             setError('You must be logged in to add items to the cart.');
             return;
         }
-    
+
         try {
             const response = await axios.post(
                 'http://localhost:3000/cart/add',
@@ -57,7 +57,7 @@ const Products = () => {
             // Optionally, you can update the UI to show that the product was added to the cart
         } catch (err) {
             console.error('Error adding product to cart:', err);
-    
+
             // Check if the error response has a message from the backend
             if (err.response && err.response.data && err.response.data.message) {
                 setError(err.response.data.message);  // Display error message from backend
@@ -66,7 +66,7 @@ const Products = () => {
             }
         }
     };
-    
+
 
     if (loading) {
         return (
@@ -96,7 +96,9 @@ const Products = () => {
                             <CardMedia component="img" height="140" image={product.image} alt={product.name} />
                             <CardContent>
                                 <Typography variant="h6">{product.name}</Typography>
-                                <Typography variant="body2">{product._id}</Typography>
+                                {import.meta.env.VITE_MODE === "development" && (
+                                    <Typography variant="body2"  sx={{ textDecoration: "line-through", color: "red" }}>Product ID: {product._id}</Typography>
+                                )}
                                 <Typography variant="body2">{product.price}</Typography>
                                 <Typography variant="body2">{product.description}</Typography>
                                 <Button
@@ -104,7 +106,7 @@ const Products = () => {
                                     color="primary"
                                     onClick={() => handleAddToCart(product._id)}
                                 >
-                                    Add to Cart
+                                    Add
                                 </Button>
                             </CardContent>
                         </Card>
