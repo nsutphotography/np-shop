@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
 import { CartContext } from "../context/CartContext/CartContext";
 import debugLib from 'debug';
+import CartInNavbar from './CartInNavbar';
 
 const debug = debugLib('app:navbar')
 const Navbar = () => {
@@ -22,15 +22,12 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        {/* Logo and Brand Name */}
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           E-Commerce App
         </Typography>
-
-        {/* Menu for Navigation */}
-        <Button color="inherit" component={Link} to="/">
+        {/* <Button color="inherit" component={Link} to="/">
           Home
-        </Button>
+        </Button> */}
         <Button color="inherit" component={Link} to="/products">
           Products
         </Button>
@@ -38,20 +35,8 @@ const Navbar = () => {
           Checkout
         </Button>
 
+        <CartInNavbar cart={cart} />
         <div>
-          {/* {debug("total quantity in navbar ",cart.totalQuantity)} */}
-          {debug("cart in navbar ", cart)}
-          Cart: {cart.totalQuantity} items (${cart.totalPrice})
-        </div>
-        <div>
-          {/* (${cart.totalQuantity}) */}
-        </div>
-        {/* User Account or Cart Button */}
-        <div>
-          <IconButton color="inherit" component={Link} to="/cart">
-            <ShoppingCartIcon />
-          </IconButton>
-          {/* User Dropdown Menu */}
           <IconButton
             color="inherit"
             aria-controls="simple-menu"

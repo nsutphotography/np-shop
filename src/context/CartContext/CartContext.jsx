@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
 import { handleFetchCart, handleAddToCart, handleRemoveFromCart } from "./cartActions";
-import axios from "axios";
 import debugLib from "debug";
 
 const debug = debugLib("app:cartContext");
@@ -15,8 +14,7 @@ export const CartProvider = ({ children }) => {
     error: null,
   });
 
-  debug("Initial cart state: ", cart);
-
+  // debug("Initial cart state: ", cart);
 
   useEffect(() => {
     handleFetchCart(setCart);
@@ -24,13 +22,10 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (productId) => {
     await handleAddToCart(productId, setCart)
-
   }
 
   const removeFromCart = async (productId) => {
-    debug("Removing item from cart...");
     await handleRemoveFromCart(productId, cart, setCart)
-  
   };
 
   return (

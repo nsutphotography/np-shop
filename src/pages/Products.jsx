@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { Grid, Typography, Card, CardContent, CardMedia, Button, CircularProgress, Alert } from '@mui/material';
+import { Box, Typography, Card, CardContent, CardMedia, Button, CircularProgress, Alert } from '@mui/material';
+
 import { CartContext } from "../context/CartContext/CartContext";
 import debugLib from 'debug'
 const debug =debugLib('api:products')
@@ -9,8 +10,6 @@ const Products = () => {
     const [productData, setProductData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [userId] = useState('user123'); // Replace with actual user ID logic, e.g., from auth
-    const [quantity] = useState(1); // Default quantity
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -55,15 +54,25 @@ const Products = () => {
             <Typography variant="h4" align="center" gutterBottom>
                 Our Products
             </Typography>
-            <Grid container spacing={3} justifyContent="center">
+            <Box 
+                display="flex" 
+                flexWrap="wrap" 
+                justifyContent="center" 
+                gap={3} 
+                sx={{ padding: 2 }}
+            >
                 {productData.map((product) => (
-                    <Grid item key={product.id} xs={12} sm={6} md={4}>
-                        <Card sx={{ maxWidth: 345 }}>
-                            {/* <CardMedia component="img" height="140" image={product.image} alt={product.name} /> */}
+                    <Box 
+                        key={product._id} 
+                        sx={{ width: { xs: '100%', sm: '45%', md: '30%' } }}
+                    >
+                        <Card sx={{ maxWidth: 345, margin: '0 auto' }}>
                             <CardContent>
                                 <Typography variant="h6">{product.name}</Typography>
                                 {import.meta.env.VITE_MODE === "development" && (
-                                    <Typography variant="body2"  sx={{ textDecoration: "line-through", color: "red" }}>Product ID: {product._id}</Typography>
+                                    <Typography variant="body2" sx={{ textDecoration: "line-through", color: "red" }}>
+                                        Product ID: {product._id}
+                                    </Typography>
                                 )}
                                 <Typography variant="body2">{product.price}</Typography>
                                 <Typography variant="body2">{product.description}</Typography>
@@ -74,20 +83,19 @@ const Products = () => {
                                 >
                                     Add
                                 </Button>
-                                {/* {console.log("here produsts",product)} */}
-                                {debug("product data in the product jsx",product)}
+                                {debug("product data in the product jsx", product)}
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    onClick={() => removeFromCart(product._id, )}
+                                    onClick={() => removeFromCart(product._id)}
                                 >
-                                    remove
+                                    Remove
                                 </Button>
                             </CardContent>
                         </Card>
-                    </Grid>
+                    </Box>
                 ))}
-            </Grid>
+            </Box>
         </div>
     );
 };
