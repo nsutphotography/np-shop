@@ -37,15 +37,15 @@ const Navbar = () => {
         <Button color="inherit" component={Link} to="/checkout">
           Checkout
         </Button>
-        
+
         <div>
           {/* {debug("total quantity in navbar ",cart.totalQuantity)} */}
-          {debug("cart in navbar ",cart)}
-        Cart: {cart.totalQuantity} items (${cart.totalPrice})
-      </div>
+          {debug("cart in navbar ", cart)}
+          Cart: {cart.totalQuantity} items (${cart.totalPrice})
+        </div>
         <div>
-         {/* (${cart.totalQuantity}) */}
-      </div>
+          {/* (${cart.totalQuantity}) */}
+        </div>
         {/* User Account or Cart Button */}
         <div>
           <IconButton color="inherit" component={Link} to="/cart">
