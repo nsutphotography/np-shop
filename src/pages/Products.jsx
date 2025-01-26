@@ -63,19 +63,6 @@ const Products = () => {
                 sx={{ padding: 2 }}
             >
                 {productData.map((product) => {
-                    // Check if the product is in the cart
-                    // const isInCart = cart.items.some((cartItem) => cartItem._id === product._id);
-                    const isInCart = cart.items.some((cartItem) => cartItem.productId._id === product._id);
-                    // console.log(`Product: ${product.name}, isInCart: ${isInCart}`); // Debug output
-
-                    // debug("check product is in cart or not product name is and present status", product.name,isInCart)
-                    debug(
-                        "Check product is in cart or not. Product name is %c%s%c and present status is %c%s",
-                        "color: blue; font-weight: bold;", product.name,
-                        "color: inherit;",
-                        "color: green;", isInCart
-                      );
-
                     return (
                         <Box
                             key={product._id}
@@ -83,10 +70,6 @@ const Products = () => {
                         >
                             <ProductCard
                                 product={product}
-                                addToCart={addToCart}
-                                removeFromCart={removeFromCart}
-                                cart={cart}
-                                isInCart={isInCart} // Pass the flag
                             />
                         </Box>
                     );
