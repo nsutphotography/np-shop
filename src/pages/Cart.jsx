@@ -118,12 +118,12 @@ const Cart = () => {
                     cartData.map((item) => (
                         <Grid item key={item.productId._id} xs={12} sm={6} md={4}>
                             <Card sx={{ maxWidth: 345 }}>
-                                <CardMedia
+                                {/* <CardMedia
                                     component="img"
                                     height="140"
                                     image={item.productId.imageUrl}
                                     alt={item.productId.name}
-                                />
+                                /> */}
                                 <CardContent>
                                     <Typography variant="h6">{item.productId.name}</Typography>
                                     <Typography variant="body2">Price: ${item.productId.price}</Typography>

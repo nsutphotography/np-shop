@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
+import { CartContext } from "../context/CartContext";
+import debugLib from 'debug';
 
+const debug = debugLib('app:navbar')
 const Navbar = () => {
+  const { cart } = useContext(CartContext);
+  // debug("cart",cart)
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenuClick = (event) => {
@@ -33,6 +38,14 @@ const Navbar = () => {
           Checkout
         </Button>
         
+        <div>
+          {/* {debug("total quantity in navbar ",cart.totalQuantity)} */}
+          {debug("cart in navbar ",cart)}
+        Cart: {cart.totalQuantity} items (${cart.totalPrice})
+      </div>
+        <div>
+         {/* (${cart.totalQuantity}) */}
+      </div>
         {/* User Account or Cart Button */}
         <div>
           <IconButton color="inherit" component={Link} to="/cart">
