@@ -94,9 +94,9 @@ const Checkout = () => {
       if (!token) {
         throw new Error('User not logged in');
       }
-if(currentQuantity === 1){
-  
-}
+      if (currentQuantity === 1) {
+
+      }
       console.log('Decreasing quantity for product:', productId);
       await axios.patch(
         `http://localhost:3000/cart/decrease/${productId}`,

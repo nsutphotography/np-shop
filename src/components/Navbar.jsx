@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
-import { CartContext } from "../context/CartContext";
+import { CartContext } from "../context/CartContext/CartContext";
 import debugLib from 'debug';
 
 const debug = debugLib('app:navbar')
