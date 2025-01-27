@@ -1,23 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { CartContext } from "../context/CartContext/CartContext";
 import debugLib from 'debug';
 import CartInNavbar from './CartInNavbar';
+import ThemeToggleButton from './NavbarComponents/ThemeToggleButton';
+import AccountMenu from './NavbarComponents/AccountMenu';
 
 const debug = debugLib('app:navbar')
 const Navbar = () => {
-  const { cart } = useContext(CartContext);
-  // debug("cart",cart)
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <AppBar position="sticky">
@@ -35,32 +25,9 @@ const Navbar = () => {
           Checkout
         </Button>
 
-        <CartInNavbar cart={cart} />
-        <div>
-          <IconButton
-            color="inherit"
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleMenuClick}
-          >
-            <Typography>Account</Typography>
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem component={Link} to="/login" onClick={handleMenuClose}>
-              Login
-            </MenuItem>
-            <MenuItem component={Link} to="/signup" onClick={handleMenuClose}>
-              Sign Up
-            </MenuItem>
-            <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
-              Profile
-            </MenuItem>
-          </Menu>
-        </div>
+        <AccountMenu />
+        <ThemeToggleButton />
+        <CartInNavbar />
       </Toolbar>
     </AppBar>
   );
