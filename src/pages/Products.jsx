@@ -21,8 +21,8 @@ const Products = () => {
                     },
                 });
                 setProductData(response.data); // Assuming response.data contains an array of products
-                console.log('Products:', response.data);
-                console.log('Product ID:', response.data[0]._id);
+                debug('Products:', response.data);
+                debug('Product ID:', response.data[0]._id);
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching products:', err);
