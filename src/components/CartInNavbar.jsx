@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from 'react';
 import { IconButton, Typography, Box } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext/CartContext";
 
-const CartInNavbar = ({ cart }) => {
+
+const CartInNavbar = () => {
+      const { cart } = useContext(CartContext);
+    
     return (
         <Box display="flex" alignItems="center" gap={2}>
 
