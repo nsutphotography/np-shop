@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import { List, ListItem, ListItemText, Button, Box } from "@mui/material";
+import React, { useContext } from "react";
+import { List, ListItem, ListItemText, Button, Box, Typography } from "@mui/material";
 import { CartContext } from "../../context/CartContext/CartContext";
 
 const CartPageItemList = () => {
@@ -24,7 +24,9 @@ const CartPageItemList = () => {
                         >
                             Add
                         </Button>
-
+                        <Typography variant="body1" sx={{ marginX: 1 }}>
+                            {item.quantity}
+                        </Typography>
                         <Button
                             variant="contained"
                             color="secondary"
