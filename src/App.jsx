@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 import Navbar from './components/Navbar'; // Import Navbar
 import Home from './pages/Home';
 import Products from './pages/Products';
-import Cart from './pages/Cart';
+import CartPage from './pages/CartPage';
 import Checkout from './pages/Checkout';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -24,7 +24,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<Checkout />} />
             {/* <Route path="/signup" element={<Signup />} /> */}
             <Route path="/login" element={<Login />} />

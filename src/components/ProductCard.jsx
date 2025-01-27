@@ -29,15 +29,11 @@ const ProductCard = ({ product }) => {
                 )}
                 <Typography variant="body2">{product.description}</Typography>
                 <div style={{ display: 'flex' }}>
-
-
                     <Box
                         sx={{ display: "flex", alignItems: "center", margin: "0 10px" }}
                     >
                         <Typography variant="body2">{product.price}</Typography>
                     </Box>
-
-
 
                     {/* Add or Remove buttons */}
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -50,8 +46,6 @@ const ProductCard = ({ product }) => {
                         >
                             Add
                         </Button>
-
-
                         {quantityInCart > 0 && (
                             <Typography variant="body2" component="span" sx={{ color: "green", margin: "0.5rem" }}>
                                 {quantityInCart}
