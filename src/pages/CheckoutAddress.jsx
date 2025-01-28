@@ -3,51 +3,34 @@ import {
   Typography,
   Button,
   Box,
-  Paper,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { AddressContext } from '../context/AddressContext/AddressContext';
+import AddAddressPopup from '../components/AddressComponent/AddAddressPopup';
+import ShowAddressList from '../components/AddressComponent/ShowAddressList';
+import debugLib from 'debug';
+
+const log = debugLib('app:address checkout');
 
 const CheckoutAddressPage = () => {
   const { addresses } = useContext(AddressContext);
   const navigate = useNavigate();
+
   const handlePlaceOrder = () => {
     console.log('Redirecting to payment page...');
     navigate('/payment');
   };
 
-
+  
 
   return (
     <Box>
       <Typography variant="h4" align="center" gutterBottom>
         Address Information
       </Typography>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        gap={2}
-      >
-        {addresses.map((address, index) => (
-          <Box key={index} width="100%" maxWidth={600}>
-            <Paper elevation={3} sx={{ padding: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                Address {index + 1}
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                {address.name}
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                {address.street}, {address.city}, {address.state} {address.zipCode}
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Phone: {address.phone}
-              </Typography>
-            </Paper>
-          </Box>
-        ))}
-      </Box>
+      <AddAddressPopup />
+
+      <ShowAddressList />
       <Box
         display="flex"
         justifyContent="center"

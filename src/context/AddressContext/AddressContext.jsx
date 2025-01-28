@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { handleFetchAddresses  } from "./addressAction";
+import { handleAddAddress, handleFetchAddresses } from "./addressAction";
 
 import debugLib from 'debug';
 const log = debugLib('app:addressContext');
@@ -18,39 +17,10 @@ export const AddressProvider = ({ children }) => {
         handleFetchAddresses(setAddresses);
     }, []);
 
-    // Fetch addresses
-    // const fetchAddresses = async () => {
-    //     try {
-    //         const token = localStorage.getItem('token');
-    //         if (!token) throw new Error('User not logged in');
-
-    //         const response = await axios.get('http://localhost:3000/addresses', {
-    //             headers: { Authorization: `Bearer ${token}` },
-    //         });
-
-    //         setAddresses(response.data);
-    //         log("response data of address",response.data)
-    //     } catch (err) {
-    //         console.error('Error fetching addresses:', err);
-    //         setError('Failed to load addresses. Please try again later.');
-    //     }
-    // };
-
     // Add an address
     const addAddress = async (newAddress) => {
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) throw new Error('User not logged in');
-
-            const response = await axios.post('http://localhost:3000/addresses', newAddress, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            setAddresses((prev) => [...prev, response.data]);
-        } catch (err) {
-            console.error('Error adding address:', err);
-            setError('Failed to add address. Please try again later.');
-        }
+        log("add address - in context",newAddress)
+        handleAddAddress(setAddresses, newAddress)
     };
 
     return (
