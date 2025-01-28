@@ -41,7 +41,7 @@ const CheckoutAddressPage = () => {
           color="primary"
           onClick={handlePlaceOrder}
         >
-          Place Order
+          proceed to pay
         </Button>
       </Box>
     </Box>

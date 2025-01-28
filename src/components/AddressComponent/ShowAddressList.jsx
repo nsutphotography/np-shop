@@ -1,52 +1,61 @@
-import React, { useContext } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Box, Typography,Button } from '@mui/material';
 import { AddressContext } from '../../context/AddressContext/AddressContext';
-import debugLib from 'debug';
-
-const log = debugLib('app:address:show-address-list');
+import AddressCard from './AddressCard';
+import EditAddressForm from './EditAddressForm';
 
 const ShowAddressList = () => {
-  const { addresses } = useContext(AddressContext);
-//   log("addresses", addresses);
+    const { addresses, updateDefaultAddress } = useContext(AddressContext);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
-  if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
-    return (
-      <Typography variant="body1" textAlign="center">
-        No addresses available.
-      </Typography>
+    if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
+        return (
+            <Typography variant="body1" textAlign="center">
+                No addresses available.
+            </Typography>
+        );
+    }
+
+    const sortedAddresses = [...addresses[0].addresses].sort(
+        (a, b) => (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0)
     );
-  }
 
-  // Extract the address array and sort by isDefault field.
-  const sortedAddresses = [...addresses[0].addresses].sort(
-    (a, b) => (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0)
-  );
+    const handleEditAddress = (address) => {
+        setSelectedAddress(address);
+        setDialogOpen(true);
+    };
 
-  return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-      {sortedAddresses.map((address, index) => (
-        <Box key={index} width="100%" maxWidth={600}>
-          <Paper
-            elevation={3}
-            sx={{
-              padding: 3,
-              backgroundColor: address.isDefault ? 'primary.main' : 'background.paper',
-              color: address.isDefault ? 'primary.contrastText' : 'text.primary',
-              border: address.isDefault ? '2px solid' : 'none',
-              borderColor: address.isDefault ? 'primary.dark' : 'transparent',
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              {address.isDefault ? 'Default Address' : `Address ${index + 1}`}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {address.street}, {address.city}, {address.state}, {address.country}, {address.postalCode} , {address.label}
-            </Typography>
-          </Paper>
+    const handleSave = (updatedAddress) => {
+        console.log('Updated Address:', updatedAddress);
+        setDialogOpen(false);
+    };
+
+    const handleClose = () => {
+        setDialogOpen(false);
+    };
+    const handleUpdateDefaultAddressClick = (addressId) => {
+        console.log('Address clicked with ID:', addressId);
+        updateDefaultAddress(addressId)
+        // Execute your function with the addressId here
+        // For example, call handleUpdateDefaultAddress(addressId) if you want to update the default address
+      };
+
+      return (
+        <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
+          {sortedAddresses.map((address, index) => (
+          
+              <AddressCard key={index} address={address} index={index} onEdit={handleEditAddress} onClick={handleUpdateDefaultAddressClick} />
+
+          ))}
+          <EditAddressForm
+            open={dialogOpen}
+            address={selectedAddress}
+            onClose={handleClose}
+            onSave={handleSave}
+          />
         </Box>
-      ))}
-    </Box>
-  );
+      );
 };
 
 export default ShowAddressList;

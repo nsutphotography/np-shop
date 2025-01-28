@@ -39,3 +39,22 @@ export const handleAddAddress = async (setAddresses, newAddress) => {
         setError('Failed to add address. Please try again later.');
     }
 };
+
+export const handleUpdateDefaultAddress = async (setAddresses, addressId) => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('User not logged in');
+
+        const response = await axios.patch(`http://localhost:3000/addresses/update-default/${addressId}`, {}, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        log("Updated default address response", response.data);
+
+        // Refresh the addresses after updating the default one
+        await handleFetchAddresses(setAddresses);
+    } catch (err) {
+        console.error('Error updating default address:', err);
+        setError('Failed to update default address. Please try again later.');
+    }
+};

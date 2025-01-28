@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { handleAddAddress, handleFetchAddresses } from "./addressAction";
+import { handleAddAddress, handleFetchAddresses, handleUpdateDefaultAddress } from "./addressAction";
 
 import debugLib from 'debug';
 const log = debugLib('app:addressContext');
@@ -22,9 +22,14 @@ export const AddressProvider = ({ children }) => {
         log("add address - in context",newAddress)
         handleAddAddress(setAddresses, newAddress)
     };
+    const updateDefaultAddress = async (addressId) => {
+        log("update default address - in context",addressId)
+        handleUpdateDefaultAddress(setAddresses, addressId)
+    };
+
 
     return (
-        <AddressContext.Provider value={{ addresses, error, addAddress }}>
+        <AddressContext.Provider value={{ addresses, error, addAddress, updateDefaultAddress }}>
             {children}
         </AddressContext.Provider>
     );
