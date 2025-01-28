@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Typography, Button, Paper, Alert, CircularProgress, Box } from "@mui/material";
 import { CartContext } from "../context/CartContext/CartContext";
 import CartPageItemList from "../components/cartPageComponents/CartPageItemList";
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const { cart, addToCart, removeFromCart } = useContext(CartContext);
@@ -57,7 +58,7 @@ const Cart = () => {
             )}
 
             <Box display="flex" justifyContent="center" mb={2}>
-                <Button variant="contained" color="primary" href="/checkout">
+                <Button variant="contained" color="primary" component={Link} to="/checkout/address">
                     Checkout - Proceed to Pay
                 </Button>
             </Box>
