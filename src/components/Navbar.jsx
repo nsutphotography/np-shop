@@ -21,9 +21,9 @@ const Navbar = () => {
         <Button color="inherit" component={Link} to="/products">
           Products
         </Button>
-        <Button color="inherit" component={Link} to="/checkout">
+        {/* <Button color="inherit" component={Link} to="/checkout">
           Checkout
-        </Button>
+        </Button> */}
 
         <AccountMenu />
         <ThemeToggleButton />
