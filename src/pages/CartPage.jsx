@@ -59,7 +59,7 @@ const Cart = () => {
 
             <Box display="flex" justifyContent="center" mb={2}>
                 <Button variant="contained" color="primary" component={Link} to="/checkout/address">
-                    checkout
+                    proceed
                 </Button>
             </Box>
         </Box>

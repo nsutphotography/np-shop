@@ -1,0 +1,50 @@
+import React, { useContext } from 'react';
+import { Box, Paper, Typography } from '@mui/material';
+import { AddressContext } from '../../context/AddressContext/AddressContext';
+
+const AddressDisplayForPayment = () => {
+    const { addresses } = useContext(AddressContext);
+
+    if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
+        return (
+            <Typography variant="body1" textAlign="center">
+                No default address available.
+            </Typography>
+        );
+    }
+
+    const defaultAddress = addresses[0].addresses.find(address => address.isDefault);
+
+    if (!defaultAddress) {
+        return (
+            <Typography variant="body1" textAlign="center">
+                No default address set.
+            </Typography>
+        );
+    }
+
+    return (
+        <Box sx={{            border: import.meta.env.VITE_MODE === "development" ? "1px solid red" : "none" 
+        }} display="flex" justifyContent="center" alignItems="center" mt={4}
+
+        
+        >
+            <Paper
+                elevation={3}
+                sx={{
+                    padding: 3,
+                    maxWidth: 600,
+                }}
+            >
+                <Typography variant="h6" gutterBottom>
+                    Default Address
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                    {defaultAddress.street}, {defaultAddress.city}, {defaultAddress.state}, {defaultAddress.country}, {defaultAddress.postalCode}
+                </Typography>
+            </Paper>
+        </Box>
+    );
+};
+
+export default AddressDisplayForPayment;

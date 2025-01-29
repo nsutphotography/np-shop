@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import CheckoutAddress from './pages/CheckoutAddress';
+import PaymentPage from './pages/PaymentPage';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             {/* <Route path="/profile" element={<Profile />} /> */}
             <Route path="checkout/address" element={<CheckoutAddress/>} />
+            <Route path="checkout/payment" element={<PaymentPage/>} />
           </Routes>
         </Container>
       </div>

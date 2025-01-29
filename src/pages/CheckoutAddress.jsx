@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { AddressContext } from '../context/AddressContext/AddressContext';
 import AddAddressPopup from '../components/AddressComponent/AddAddressPopup';
 import ShowAddressList from '../components/AddressComponent/ShowAddressList';
+import { Link } from 'react-router-dom';
+
 import debugLib from 'debug';
 
 const log = debugLib('app:address checkout');
@@ -21,7 +23,7 @@ const CheckoutAddressPage = () => {
     navigate('/payment');
   };
 
-  
+
 
   return (
     <Box>
@@ -36,12 +38,8 @@ const CheckoutAddressPage = () => {
         justifyContent="center"
         sx={{ marginTop: 3 }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handlePlaceOrder}
-        >
-          proceed to pay
+        <Button variant="contained" color="primary" component={Link} to="/checkout/payment">
+          checkout
         </Button>
       </Box>
     </Box>
