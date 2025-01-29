@@ -18,7 +18,6 @@ log("addresses all",addresses)
     const [errorMessage, setErrorMessage] = useState(null);
     const stripe = useStripe();
     const elements = useElements();
-    const deliveryAddress = addresses[0].addresses.find(address => address.isDefault);
     //  if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
     //        log("no address ")
     //     }
@@ -47,12 +46,14 @@ log("addresses all",addresses)
         setLoading(true);
 
         try {
+            const deliveryAddress = addresses[0].addresses.find(address => address.isDefault);
+
             // Step 1: Fetch clientSecret from backend
             log('Fetching clientSecret from backend.');
             log("cart passing to the backend for payment",cart)
             // log("address passing to the backend for payment",deliveryAddress)
             const response = await axios.post('http://localhost:3000/stripe/create-payment-intent', {
-                amount: 2100,
+                amount: cart.totalPrice,
                 cart,
                 deliveryAddress,                
             });
