@@ -6,7 +6,7 @@ import PaymentMethod from '../components/PaymentComponents/PaymentMethod';
 import CartDisplayForPayment from '../components/PaymentComponents/CartDisplayForPayment';
 import AddressDisplayForPayment from '../components/PaymentComponents/AddressDisplayForPayment';
 
-const stripePromise = loadStripe('your-publishable-key-here'); // Replace with your actual Stripe key
+const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHABLE_KEY); // Replace with your actual Stripe key
 
 const PaymentPage = () => {
     const handleCheckout = () => {

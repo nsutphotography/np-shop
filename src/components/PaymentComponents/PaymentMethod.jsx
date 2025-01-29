@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-
+import debugLib from 'debug'
+const log = debugLib('app:payment:meathod')
 const PaymentMethod = ({ onPaymentMethodSelect }) => {
     const [selectedMethod, setSelectedMethod] = useState('card');
     const stripe = useStripe();
@@ -22,9 +23,10 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
             card: cardElement,
         });
         if (error) {
+            log("error in handle payment",error)
             console.error(error);
         } else {
-            console.log('Payment Method:', paymentMethod);
+            log('Payment Method:', paymentMethod);
         }
     };
 
