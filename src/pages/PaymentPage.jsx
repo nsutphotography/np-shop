@@ -1,8 +1,12 @@
 import React from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import PaymentMethod from '../components/PaymentComponents/PaymentMethod';
 import CartDisplayForPayment from '../components/PaymentComponents/CartDisplayForPayment';
 import AddressDisplayForPayment from '../components/PaymentComponents/AddressDisplayForPayment';
+
+const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHABLE_KEY); // Replace with your actual Stripe key
 
 const PaymentPage = () => {
     const handleCheckout = () => {
@@ -10,18 +14,17 @@ const PaymentPage = () => {
         // Add your checkout logic here
     };
 
-    const handlePaymentMethodSelect = (method) => {
-        console.log(`Selected Payment Method: ${method}`);
-    };
-
     return (
         <Container maxWidth="lg">
             <Typography variant="h4" align="center" gutterBottom>
                 Payment Page
             </Typography>
-            <Box sx={{border: import.meta.env.VITE_MODE === "development" ? "1px solid red" : "none" }} display="flex" flexDirection={{ xs: 'column', md: 'row' }} mt={4}>
+            <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} mt={4}>
                 <Box flex={1} mr={{ md: 2 }}>
-                    <PaymentMethod onPaymentMethodSelect={handlePaymentMethodSelect} />
+                    {/* Wrap PaymentMethod inside Elements */}
+                    <Elements stripe={stripePromise}>
+                        <PaymentMethod />
+                    </Elements>
                 </Box>
                 <Box flex={2} display="flex" flexDirection="column" alignItems="flex-end">
                     <Box mb={2} width="100%">
