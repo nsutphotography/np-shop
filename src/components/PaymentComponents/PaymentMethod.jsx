@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import axios from 'axios';
+
 import debugLib from 'debug';
+import { CartContext } from '../../context/CartContext/CartContext';
+import { AddressContext } from '../../context/AddressContext/AddressContext';
 
 const log = debugLib('app:payment:method');
 
 const PaymentMethod = ({ onPaymentMethodSelect }) => {
+    const { cart } = useContext(CartContext);
+    const {addresses} = useContext(AddressContext)
+log("addresses all",addresses)
     const [selectedMethod, setSelectedMethod] = useState('card');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const stripe = useStripe();
     const elements = useElements();
+    const deliveryAddress = addresses[0].addresses.find(address => address.isDefault);
+    //  if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
+    //        log("no address ")
+    //     }
+    //     else{
+
+    //         // const deliveryAddress = addresses[0].addresses.find(address => address.isDefault);
+    //         // log("address delivery",deliveryAddress)
+    //     }
 
     const handleMethodChange = (event) => {
         setSelectedMethod(event.target.value);
@@ -22,6 +38,7 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
 
         if (!stripe || !elements) {
             setErrorMessage('Stripe has not loaded properly.');
+            log('Stripe instance or elements are not available.');
             return;
         }
 
@@ -31,19 +48,25 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
 
         try {
             // Step 1: Fetch clientSecret from backend
-            const response = await fetch('http://localhost:3000/stripe/create-payment-intent', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: 5000 }), // Example: $50.00 in cents
+            log('Fetching clientSecret from backend.');
+            log("cart passing to the backend for payment",cart)
+            // log("address passing to the backend for payment",deliveryAddress)
+            const response = await axios.post('http://localhost:3000/stripe/create-payment-intent', {
+                amount: 2100,
+                cart,
+                deliveryAddress,                
             });
 
-            const { clientSecret } = await response.json();
+            log('Backend response:', response.data);
+
+            const { clientSecret } = response.data;
 
             if (!clientSecret) {
                 throw new Error('Failed to get client secret from backend.');
             }
 
             // Step 2: Confirm card payment
+            log('Confirming card payment with Stripe.');
             const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
                     card: cardElement,
