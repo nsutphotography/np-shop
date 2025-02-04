@@ -2,11 +2,13 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { Google as GoogleIcon } from '@mui/icons-material';
 import { useGoogleLogin } from '@react-oauth/google';
+// import { log } from '../../debugging/debug';
 
 const GoogleLoginButton = () => {
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
           try {
+            // log("token response from google",tokenResponse)
             const { data } = await axios.post(
               'http://localhost:3000/auth/google', // Update with your backend URL
               { token: tokenResponse.credential }
