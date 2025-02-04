@@ -4,16 +4,26 @@ import { Google as GoogleIcon } from '@mui/icons-material';
 import { useGoogleLogin } from '@react-oauth/google';
 
 const GoogleLoginButton = () => {
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log("Google Login Success:", tokenResponse);
-      // Send the token to the backend
-    },
-    onError: (error) => {
-      console.error("Google Login Failed:", error);
-    },
-    flow: 'auth-code',
-  });
+    const handleGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+          try {
+            const { data } = await axios.post(
+              'http://localhost:3000/auth/google', // Update with your backend URL
+              { token: tokenResponse.credential }
+            );
+    
+            // Store JWT token in local storage
+            localStorage.setItem('jwt', data.token);
+            console.log('Login Success:', data);
+          } catch (error) {
+            console.error('Login Failed:', error);
+          }
+        },
+        onError: (error) => {
+          console.error('Google Login Failed:', error);
+        },
+        flow: 'implicit',
+      });
 
   return (
     <Button
