@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Typography, Paper, Grid, Alert, AlertTitle } from '@mui/material';
+import GoogleLoginButton from '../components/LoginComponents/GoogleLoginButton';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -89,6 +90,7 @@ const Signup = () => {
                 Sign Up
               </Button>
             </form>
+            <GoogleLoginButton />
           </Paper>
         </Grid>
       </Grid>
