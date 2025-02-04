@@ -1,5 +1,5 @@
 // debugging/debug.js
-const debugLib = require('debug');
+import debugLib from 'debug';
 
 // Base namespace for your application
 const APP_NAMESPACE = 'app';
@@ -62,5 +62,5 @@ const createDebug = (namespace) => {
 const log = createDebug(APP_NAMESPACE);
 
 // Export both `createDebug` and `log` for flexible use
-module.exports = { createDebug, log };
-module.exports.default = log;
+export { createDebug, log };
+export default log;
