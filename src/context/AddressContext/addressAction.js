@@ -11,7 +11,7 @@ export const handleFetchAddresses = async (setAddresses) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('User not logged in');
 
-        const response = await axios.get('http://localhost:3000/addresses/get-all', {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/addresses/get-all`, {
             headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -28,7 +28,7 @@ export const handleAddAddress = async (setAddresses, newAddress) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('User not logged in');
 
-        const response = await axios.post('http://localhost:3000/addresses/add', newAddress, {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/addresses/add`, newAddress, {
             headers: { Authorization: `Bearer ${token}` },
         });
         log("address added response", response.data)
@@ -45,7 +45,7 @@ export const handleUpdateDefaultAddress = async (setAddresses, addressId) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('User not logged in');
 
-        const response = await axios.patch(`http://localhost:3000/addresses/update-default/${addressId}`, {}, {
+        const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/addresses/update-default/${addressId}`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
 

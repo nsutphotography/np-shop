@@ -29,7 +29,7 @@ const Checkout = () => {
         }
 
         console.log('Fetching cart data...');
-        const response = await axios.get('http://localhost:3000/cart/get-all', {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/cart/get-all`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -62,7 +62,7 @@ const Checkout = () => {
 
       console.log('Increasing quantity for product:', productId);
       await axios.post(
-        'http://localhost:3000/cart/add',
+        `${import.meta.env.VITE_BASE_URL}/cart/add`,
         {
           productId,
           quantity: currentQuantity + 1,
@@ -99,7 +99,7 @@ const Checkout = () => {
       }
       console.log('Decreasing quantity for product:', productId);
       await axios.patch(
-        `http://localhost:3000/cart/decrease/${productId}`,
+        `${import.meta.env.VITE_BASE_URL}/cart/decrease/${productId}`,
         {
           quantity: 1,
         },

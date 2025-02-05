@@ -16,7 +16,7 @@ const Login = () => {
     setSuccess(null); // Clear any previous success messages
 
     try {
-      const response = await axios.post('http://localhost:3000/user/login', { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, { email, password });
       console.log('Login successful:', response.data);
 
       // Set success message

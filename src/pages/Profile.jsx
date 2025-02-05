@@ -15,7 +15,7 @@ const Profile = () => {
         throw new Error('User not logged in');
       }
 
-      const response = await axios.get('http://localhost:3000/user/profile', {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/user/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +36,7 @@ const Profile = () => {
         throw new Error('User not logged in');
       }
 
-      const response = await axios.get('http://localhost:3000/addresses', {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/addresses`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
