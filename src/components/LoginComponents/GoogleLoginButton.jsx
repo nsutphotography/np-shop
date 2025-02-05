@@ -7,36 +7,30 @@ import axios from 'axios';
 
 const GoogleLoginButton = () => {
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
+    onSuccess: async (response) => {
       try {
-        log("token response from google", tokenResponse);
-        
-        // Ensure we're sending `id_token` instead of `access_token`
-        if (!tokenResponse.code) {
-          console.error("No ID token received");
-          return;
-        }
+        log("Google login response:", response);
+        log("Google login response:", response.code);
+        log("Google login response:",typeof( response.code));
   
-        log("ID token passed to backend", tokenResponse.credential);
+        // Exchange auth code for ID token on backend
+        const { data } = await axios.post('http://localhost:3000/auth/google', {
+          code: response.code, // Send auth code, NOT access_token
+        });
   
-        const { data } = await axios.post(
-          'http://localhost:3000/auth/google', // Update with your backend URL
-          { token: tokenResponse.credential } // Send `id_token`
-        );
-  
-        log("Data from backend", data);
+        log("Data from backend:", data);
   
         // Store JWT token in local storage
         localStorage.setItem('jwt', data.token);
-        console.log('Login Success:', data);
+        log('Login Success:', data);
       } catch (error) {
-        console.error('Login Failed:', error);
+        error('Login Failed:', error);
       }
     },
     onError: (error) => {
-      console.error('Google Login Failed:', error);
+      error('Google Login Failed:', error);
     },
-    flow: 'implicit',
+    flow: 'auth-code', // Use 'auth-code' instead of 'implicit'
   });
   
 
