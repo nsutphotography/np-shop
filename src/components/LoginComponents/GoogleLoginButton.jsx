@@ -14,7 +14,7 @@ const GoogleLoginButton = () => {
         log("Google login response:",typeof( response.code));
   
         // Exchange auth code for ID token on backend
-        const { data } = await axios.post('http://localhost:3000/auth/google', {
+        const { data } = await axios.post('http://localhost:3000/auth/google/callback', {
           code: response.code, // Send auth code, NOT access_token
         });
   
