@@ -12,7 +12,7 @@ export const handleFetchCart = async (setCart) => {
 
         setCart((prev) => ({ ...prev, isLoading: true })); // Set loading state
 
-        const response = await axios.get("http://localhost:3000/cart/get-all", {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/cart/get-all`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -49,7 +49,7 @@ export const handleAddToCart = async (productId, setCart) => {
     }
     try {
         const response = await axios.post(
-            "http://localhost:3000/cart/add",
+            `${import.meta.env.VITE_BASE_URL}/cart/add`,
             { productId, quantity: 1 },
             {
                 headers: {
@@ -84,7 +84,7 @@ export const handleRemoveFromCart = async (productId, cart, setCart) => {
         }
         console.log('Decreasing quantity for product:', productId);
         await axios.patch(
-            `http://localhost:3000/cart/decrease/${productId}`,
+            `${import.meta.env.VITE_BASE_URL}/cart/decrease/${productId}`,
             {
                 quantity: 1,
             },

@@ -15,7 +15,7 @@ const Products = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/products/get-all', {
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/products/get-all`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },

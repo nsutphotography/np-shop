@@ -52,7 +52,7 @@ log("addresses all",addresses)
             log('Fetching clientSecret from backend.');
             log("cart passing to the backend for payment",cart)
             // log("address passing to the backend for payment",deliveryAddress)
-            const response = await axios.post('http://localhost:3000/stripe/create-payment-intent', {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/stripe/create-payment-intent`, {
                 amount: cart.totalPrice,
                 cart,
                 deliveryAddress,                
