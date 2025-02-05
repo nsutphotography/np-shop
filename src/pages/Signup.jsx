@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Typography, Paper, Grid, Alert, AlertTitle } from '@mui/material';
+import GoogleLoginButton from '../components/LoginComponents/GoogleLoginButton';
+import { log } from '../debugging/debug';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  console.log("herr hola")
+  log("hola")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,6 +93,7 @@ const Signup = () => {
                 Sign Up
               </Button>
             </form>
+            <GoogleLoginButton />
           </Paper>
         </Grid>
       </Grid>
