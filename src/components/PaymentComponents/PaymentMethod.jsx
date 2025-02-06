@@ -6,6 +6,7 @@ import axios from 'axios';
 import debugLib from 'debug';
 import { CartContext } from '../../context/CartContext/CartContext';
 import { AddressContext } from '../../context/AddressContext/AddressContext';
+import { handleConfirmPayment, handleFetchClientSecret } from '../../services/paymentService';
 
 const log = debugLib('app:payment:method');
 
@@ -18,14 +19,6 @@ log("addresses all",addresses)
     const [errorMessage, setErrorMessage] = useState(null);
     const stripe = useStripe();
     const elements = useElements();
-    //  if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
-    //        log("no address ")
-    //     }
-    //     else{
-
-    //         // const deliveryAddress = addresses[0].addresses.find(address => address.isDefault);
-    //         // log("address delivery",deliveryAddress)
-    //     }
 
     const handleMethodChange = (event) => {
         setSelectedMethod(event.target.value);
@@ -46,21 +39,12 @@ log("addresses all",addresses)
         setLoading(true);
 
         try {
-            const deliveryAddress = addresses[0].addresses.find(address => address.isDefault);
 
             // Step 1: Fetch clientSecret from backend
             log('Fetching clientSecret from backend.');
             log("cart passing to the backend for payment",cart)
             // log("address passing to the backend for payment",deliveryAddress)
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/stripe/create-payment-intent`, {
-                amount: cart.totalPrice,
-                cart,
-                deliveryAddress,                
-            });
-
-            log('Backend response:', response.data);
-
-            const { clientSecret } = response.data;
+            const clientSecret = await handleFetchClientSecret(cart,addresses);
 
             if (!clientSecret) {
                 throw new Error('Failed to get client secret from backend.');
@@ -68,18 +52,12 @@ log("addresses all",addresses)
 
             // Step 2: Confirm card payment
             log('Confirming card payment with Stripe.');
-            const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-                payment_method: {
-                    card: cardElement,
-                },
-            });
+            const paymentIntent = await handleConfirmPayment(stripe, clientSecret, cardElement);
 
-            if (error) {
-                log('Error confirming card payment:', error);
-                setErrorMessage(error.message);
-            } else if (paymentIntent.status === 'succeeded') {
+            if (paymentIntent.status === 'succeeded') {
                 log('Payment successful:', paymentIntent);
-                alert('Payment successful!');
+                alert("done")
+                // await saveOrderDetails(currentUser.id, cart, deliveryAddress, paymentIntent);
             }
         } catch (error) {
             log('Error in payment flow:', error);
@@ -116,7 +94,7 @@ log("addresses all",addresses)
                     disabled={!stripe || loading}
                     onClick={handlePayment}
                 >
-                    {loading ? 'Processing...' : 'Proceed to Pay'}
+                    {loading ? 'Processing...' : 'Pay'}
                 </Button>
             </Box>
         </Box>

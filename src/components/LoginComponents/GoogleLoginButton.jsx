@@ -8,30 +8,29 @@ import axios from 'axios';
 const GoogleLoginButton = () => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (response) => {
-      try {
-        log("Google login response:", response);
-        log("Google login response:", response.code);
-        log("Google login response:",typeof( response.code));
+      console.log("Google login response:", response);
+      console.log("Google login code:", response.code);
   
-        // Exchange auth code for ID token on backend
+      try {
         const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/google/callback`, {
-          code: response.code, // Send auth code, NOT access_token
+          code: response.code, // Send auth code
         });
   
-        log("Data from backend:", data);
-  
-        // Store JWT token in local storage
         localStorage.setItem('jwt', data.token);
-        log('Login Success:', data);
+        console.log('Login Success:', data);
       } catch (error) {
-        error('Login Failed:', error);
+        console.error('Login Failed:', error);
       }
     },
     onError: (error) => {
-      error('Google Login Failed:', error);
+      console.error('Google Login Failed:', error);
     },
-    flow: 'auth-code', // Use 'auth-code' instead of 'implicit'
+    flow: 'auth-code', // Use Authorization Code Flow
+    ux_mode: 'popup',
+    // redirect_uri: 'http://localhost:5173', // Explicitly set redirect URI
+    // redirect_uri: 'http://localhost:3000/auth/google/callback', // Explicitly set redirect URI
   });
+  
   
 
   return (
