@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const fetchProducts = async (token: string) => {
   try {
-    const response = await axios.get(`${process.env.VITE_BASE_URL}/products/get-all`, {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/products/get-all`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
