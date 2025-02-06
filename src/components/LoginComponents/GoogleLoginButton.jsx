@@ -26,9 +26,9 @@ const GoogleLoginButton = () => {
       console.error('Google Login Failed:', error);
     },
     flow: 'auth-code', // Use Authorization Code Flow
-    ux_mode: 'redirect',
+    ux_mode: 'popup',
     // redirect_uri: 'http://localhost:5173', // Explicitly set redirect URI
-    redirect_uri: 'http://localhost:3000/auth/google/callback', // Explicitly set redirect URI
+    // redirect_uri: 'http://localhost:3000/auth/google/callback', // Explicitly set redirect URI
   });
   
   
