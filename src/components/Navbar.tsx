@@ -1,14 +1,16 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import debugLib from 'debug';
 import CartInNavbar from './CartInNavbar';
 import ThemeToggleButton from './NavbarComponents/ThemeToggleButton';
 import AccountMenu from './NavbarComponents/AccountMenu';
 
-const debug = debugLib('app:navbar')
-const Navbar = () => {
+// Create a debug instance
+const debug = debugLib('app:navbar');
 
+// Define the Navbar component
+const Navbar: React.FC = () => {
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -25,6 +27,7 @@ const Navbar = () => {
           Checkout
         </Button> */}
 
+        {/* Including the Account Menu, Theme Toggle, and Cart */}
         <AccountMenu />
         <ThemeToggleButton />
         <CartInNavbar />
