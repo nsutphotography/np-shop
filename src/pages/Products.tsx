@@ -3,7 +3,7 @@ import { Box, Typography, CircularProgress, Alert } from '@mui/material';
 import ProductCard from "../components/ProductCard";
 import { CartContext } from "../context/CartContext/CartContext";
 import { fetchProducts } from '../services/productService'; // Import the service
-
+import log from '../debugging/debug'
 interface Product {
   _id: string;
   name: string;
@@ -16,7 +16,7 @@ const Products: React.FC = () => {
   const [productData, setProductData] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>('');
-
+log("here")
   useEffect(() => {
     const token = localStorage.getItem('token') || '';
     const fetchData = async () => {
