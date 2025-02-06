@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Paper, Grid, Alert, AlertTitle } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { handleLoginUser } from '../services/loginService';  // Import the service
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  Grid,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { handleLoginUser } from "../services/loginService"; // Import the service
 
-const Login = () => {
+const Login:React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null); // Clear any previous errors
     setSuccess(null); // Clear any previous success messages
@@ -27,7 +35,11 @@ const Login = () => {
         navigate('/products');
       }, 2000);
     } catch (error) {
-      setError(error.message); // Display the error message from the service
+      if (error instanceof Error) {
+        setError(error.message); // Access message safely
+      } else {
+        setError('An unexpected error occurred'); // Fallback for non-Error objects
+      }
       console.error('Error:', error);
     }
   };
@@ -59,7 +71,7 @@ const Login = () => {
                 fullWidth
                 label="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as HTMLInputElement).value)}
                 margin="normal"
                 required
               />
@@ -68,7 +80,7 @@ const Login = () => {
                 type="password"
                 label="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword((e.target as HTMLInputElement).value)} 
                 margin="normal"
                 required
               />
@@ -89,4 +101,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login
