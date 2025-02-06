@@ -16,7 +16,8 @@ const Products: React.FC = () => {
   const [productData, setProductData] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>('');
-log("here")
+log("here one  " )
+console.log("a   ")
   useEffect(() => {
     const token = localStorage.getItem('token') || '';
     const fetchData = async () => {

@@ -12,7 +12,6 @@ const Signup: React.FC = () => {
 
   console.log("herr hola");
   log("hola");
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
