@@ -1,60 +1,29 @@
-import React, { useState, FormEvent } from 'react';
-import axios from 'axios';
-import { TextField, Button, Typography, Paper, Alert, AlertTitle, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-
-interface LoginResponse {
-  token: string;
-}
+import React, { useState } from 'react';
+import { Box, Paper, Typography, TextField, Button, Alert, AlertTitle } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 const Login = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const theme = useTheme(); // Use theme hook to access theme
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null); // Clear any previous errors
-    setSuccess(null); // Clear any previous success messages
+    setError(null);
+    setSuccess(null);
 
-    try {
-      const response = await axios.post<LoginResponse>(`${process.env.VITE_BASE_URL}/user/login`, { email, password });
-      console.log('Login successful:', response.data);
-
-      // Set success message
-      setSuccess('Login successful! Redirecting...');
-
-      // Handle successful login
-      localStorage.setItem('token', response.data.token);
-
-      // Redirect to the products page
-      setTimeout(() => {
-        navigate('/products');
-      }, 2000); // Optional delay for user to see the success message
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        // Handle backend errors (e.g., invalid credentials)
-        if (error.response.status === 401) {
-          setError('Invalid email or password.');
-        } else {
-          setError('An error occurred. Please try again.');
-        }
-      } else {
-        // Handle network or unexpected errors
-        setError('Unable to connect to the server. Please try again later.');
-      }
-      console.error('Error:', error);
-    }
+    // Handle form submission logic here
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f4f4f4">
-      <Paper sx={{ padding: 3, width: '100%', maxWidth: 400 }}>
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" bgcolor={theme.palette.background.default}>
+      <Paper sx={{ padding: 3, width: '100%', maxWidth: 400, bgcolor: theme.palette.background.paper }}>
         <Typography variant="h4" align="center" gutterBottom>
           Login
         </Typography>
+        
         {/* Display error message */}
         {error && (
           <Alert severity="error" sx={{ marginBottom: 2 }}>
@@ -62,6 +31,7 @@ const Login = () => {
             {error}
           </Alert>
         )}
+
         {/* Display success message */}
         {success && (
           <Alert severity="success" sx={{ marginBottom: 2 }}>
@@ -69,6 +39,7 @@ const Login = () => {
             {success}
           </Alert>
         )}
+        
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
