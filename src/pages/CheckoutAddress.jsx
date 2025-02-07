@@ -27,9 +27,14 @@ const CheckoutAddressPage = () => {
 
   return (
     <Box>
-      <Typography variant="h4" align="center" gutterBottom>
-        Address Information
-      </Typography>
+      <Box>
+        <Typography variant="h4" align="center" gutterBottom>
+          Address Information
+        </Typography>
+        <Button variant="contained" color="primary" component={Link} to="/checkout/payment">
+          checkout
+        </Button>
+      </Box>
       <AddAddressPopup />
 
       <ShowAddressList />
@@ -38,9 +43,7 @@ const CheckoutAddressPage = () => {
         justifyContent="center"
         sx={{ marginTop: 3 }}
       >
-        <Button variant="contained" color="primary" component={Link} to="/checkout/payment">
-          checkout
-        </Button>
+
       </Box>
     </Box>
   );

@@ -1,48 +1,44 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { TextField, Button, Typography, Paper, Grid, Alert, AlertTitle } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  Grid,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { handleLoginUser } from "../services/loginService"; // Import the service
 
-const Login = () => {
+const Login:React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null); // Clear any previous errors
     setSuccess(null); // Clear any previous success messages
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, { email, password });
-      console.log('Login successful:', response.data);
+      const data = await handleLoginUser(email, password); // Call the login service
+      console.log('Login successful:', data);
 
       // Set success message
       setSuccess('Login successful! Redirecting...');
 
-      // Handle successful login
-      // e.g., save JWT to localStorage and redirect
-      // localStorage.setItem('token', response.data.token);
-      // navigate('/dashboard');
-      localStorage.setItem('token', response.data.token);
-
-      // Redirect to the products page
+      // Redirect to the products page after a delay
       setTimeout(() => {
         navigate('/products');
-      }, 2000); // Optional delay for user to see the success message
+      }, 2000);
     } catch (error) {
-      if (error.response) {
-        // Handle backend errors (e.g., invalid credentials)
-        if (error.response.status === 401) {
-          setError('Invalid email or password.');
-        } else {
-          setError('An error occurred. Please try again.');
-        }
+      if (error instanceof Error) {
+        setError(error.message); // Access message safely
       } else {
-        // Handle network or unexpected errors
-        setError('Unable to connect to the server. Please try again later.');
+        setError('An unexpected error occurred'); // Fallback for non-Error objects
       }
       console.error('Error:', error);
     }
@@ -75,7 +71,7 @@ const Login = () => {
                 fullWidth
                 label="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as HTMLInputElement).value)}
                 margin="normal"
                 required
               />
@@ -84,7 +80,7 @@ const Login = () => {
                 type="password"
                 label="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword((e.target as HTMLInputElement).value)} 
                 margin="normal"
                 required
               />
@@ -105,4 +101,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login
