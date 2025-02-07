@@ -36,12 +36,25 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const fetchOrders = async () => {
         try {
             const token = localStorage.getItem("jwt_token");
+            if (!token) {
+                console.error("User not logged in");
+                return;
+            }
+    
             const response = await axios.get<{ orders: Order[] }>("/api/orders", {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            setOrders(response.data.orders);
+    
+            // ✅ Ensure response.data.orders exists and is an array
+            if (response.data && Array.isArray(response.data.orders)) {
+                setOrders(response.data.orders);
+            } else {
+                console.warn("Invalid orders data received:", response.data);
+                setOrders([]); // Fallback to empty array
+            }
         } catch (error) {
             console.error("Error fetching orders", error);
+            setOrders([]); // Fallback to empty array in case of error
         }
     };
 
@@ -55,6 +68,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               );
 
               console.log("after add ordre",response.data);
+              console.log("befor eadd",orders)
             setOrders((prev) => [...prev, response.data]);
             console.log("after add ordre",orders);
         } catch (error) {
