@@ -7,13 +7,15 @@ import debugLib from 'debug';
 import { CartContext } from '../../context/CartContext/CartContext';
 import { AddressContext } from '../../context/AddressContext/AddressContext';
 import { handleConfirmPayment, handleFetchClientSecret } from '../../services/paymentService';
+import { useOrder } from '../../context/OrderContext/OrderContext';
 
 const log = debugLib('app:payment:method');
 
 const PaymentMethod = ({ onPaymentMethodSelect }) => {
+    const { addOrder } = useOrder()
     const { cart } = useContext(CartContext);
-    const {addresses} = useContext(AddressContext)
-log("addresses all",addresses)
+    const { addresses } = useContext(AddressContext)
+    log("addresses all", addresses)
     const [selectedMethod, setSelectedMethod] = useState('card');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -42,9 +44,9 @@ log("addresses all",addresses)
 
             // Step 1: Fetch clientSecret from backend
             log('Fetching clientSecret from backend.');
-            log("cart passing to the backend for payment",cart)
+            log("cart passing to the backend for payment", cart)
             // log("address passing to the backend for payment",deliveryAddress)
-            const clientSecret = await handleFetchClientSecret(cart,addresses);
+            const clientSecret = await handleFetchClientSecret(cart, addresses);
 
             if (!clientSecret) {
                 throw new Error('Failed to get client secret from backend.');
@@ -57,6 +59,11 @@ log("addresses all",addresses)
             if (paymentIntent.status === 'succeeded') {
                 log('Payment successful:', paymentIntent);
                 alert("done")
+                const totalPrice = cart.items.reduce(
+                    (sum, item) => sum + item.productId.price * item.quantity,
+                    0
+                );
+                addOrder(cart.items,totalPrice,)
                 // await saveOrderDetails(currentUser.id, cart, deliveryAddress, paymentIntent);
             }
         } catch (error) {
