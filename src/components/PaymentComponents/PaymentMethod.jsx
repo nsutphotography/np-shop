@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button, Tooltip } from '@mui/material';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
@@ -21,6 +21,14 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
     const [errorMessage, setErrorMessage] = useState(null);
     const stripe = useStripe();
     const elements = useElements();
+    const [tooltipText, setTooltipText] = useState("Click to copy");
+
+    const handleCopy = () => {
+        const testCardDetails = "4242 4242 4242 4242 | Exp: 12/34 | CVC: 123";
+        navigator.clipboard.writeText(testCardDetails);
+        setTooltipText("Copied!");
+        setTimeout(() => setTooltipText("Click to copy"), 2000);
+    };
 
     const handleMethodChange = (event) => {
         setSelectedMethod(event.target.value);
@@ -63,7 +71,7 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
                     (sum, item) => sum + item.productId.price * item.quantity,
                     0
                 );
-                addOrder(cart.items,totalPrice,)
+                addOrder(cart.items, totalPrice,)
                 // await saveOrderDetails(currentUser.id, cart, deliveryAddress, paymentIntent);
             }
         } catch (error) {
@@ -85,8 +93,62 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
                 </RadioGroup>
             </FormControl>
             {selectedMethod === 'card' && (
+                // <Box mt={2}>
+                //     {/* <CardElement options={{ hidePostalCode: true }} /> */}
+                //     <CardElement
+                //         options={{
+                //             style: {
+                //                 base: {
+                //                     fontSize: '16px',
+                //                     color: '#424770',
+                //                     '::placeholder': {
+                //                         color: '#aab7c4',
+                //                     },
+                //                 },
+                //                 invalid: {
+                //                     color: '#9e2146',
+                //                 },
+                //             },
+                //             hidePostalCode: true,
+                //         }}
+                //     />
+                // </Box>
                 <Box mt={2}>
-                    <CardElement options={{ hidePostalCode: true }} />
+                    <CardElement
+                        options={{
+                            style: {
+                                base: {
+                                    fontSize: '16px',
+                                    color: '#424770',
+                                    '::placeholder': {
+                                        color: '#aab7c4',
+                                    },
+                                },
+                                invalid: {
+                                    color: '#9e2146',
+                                },
+                            },
+                            hidePostalCode: true,
+                        }}
+                        onReady={(element) => {
+                            if (isDevelopment) {
+                                console.log('Development mode detected, but card details cannot be prefilled.');
+                            }
+                        }}
+                    />
+                    {true && (
+                        <Tooltip title={tooltipText} arrow>
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                mt={2}
+                                sx={{ cursor: "pointer", userSelect: "none" }}
+                                onClick={handleCopy}
+                            >
+                                <strong>Test Card:</strong> 4242 4242 4242 4242 | Exp: 12/34 | CVC: 123
+                            </Typography>
+                        </Tooltip>
+                    )}
                 </Box>
             )}
             {errorMessage && (
