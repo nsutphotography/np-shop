@@ -16,7 +16,7 @@ export const fetchOrders = async () => {
   }
 };
 
-export const addOrder = async (
+export const handleAddOrder = async (
   items: { productId: string; quantity: number }[],
   totalPrice: number,
   shippingAddress: string

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button, Tooltip } from '@mui/material';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
 
 import debugLib from 'debug';
 import { CartContext } from '../../context/CartContext/CartContext';
@@ -93,26 +92,7 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
                 </RadioGroup>
             </FormControl>
             {selectedMethod === 'card' && (
-                // <Box mt={2}>
-                //     {/* <CardElement options={{ hidePostalCode: true }} /> */}
-                //     <CardElement
-                //         options={{
-                //             style: {
-                //                 base: {
-                //                     fontSize: '16px',
-                //                     color: '#424770',
-                //                     '::placeholder': {
-                //                         color: '#aab7c4',
-                //                     },
-                //                 },
-                //                 invalid: {
-                //                     color: '#9e2146',
-                //                 },
-                //             },
-                //             hidePostalCode: true,
-                //         }}
-                //     />
-                // </Box>
+
                 <Box mt={2}>
                     <CardElement
                         options={{
@@ -136,7 +116,7 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
                             }
                         }}
                     />
-                    {true && (
+                    {import.meta.env.VITE_MODE==="development" && (
                         <Tooltip title={tooltipText} arrow>
                             <Typography
                                 variant="body2"
