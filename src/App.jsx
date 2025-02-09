@@ -12,6 +12,8 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import CheckoutAddress from './pages/CheckoutAddress';
 import PaymentPage from './pages/PaymentPage';
+import OrderSummary from './pages/OrderSummary';
+import OrderHistory from './pages/OrderHistory';
 
 const App = () => {
   return (
@@ -32,6 +34,8 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="checkout/address" element={<CheckoutAddress/>} />
             <Route path="checkout/payment" element={<PaymentPage/>} />
+            <Route path="order/summary" element={<OrderSummary/>} />
+            <Route path="order/history" element={<OrderHistory/>} />
           </Routes>
         </Container>
       </div>

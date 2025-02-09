@@ -1,62 +1,21 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-
-interface Product {
-    _id: string;
-    name: string;
-    price: number;
-    imageUrl: string;
-}
-
-interface OrderItem {
-    product: Product;
-    quantity: number;
-}
-
-interface Order {
-    _id: string;
-    userId: string;
-    items: OrderItem[];
-    totalPrice: number;
-    status: "pending" | "shipped" | "delivered";
-    createdAt: string;
-}
-
-interface OrderContextType {
-    orders: Order[];
-    fetchOrders: () => Promise<void>;
-    addOrder: (items: OrderItem[], totalPrice: number) => Promise<void>;
-}
+import { log } from "../../debugging/debug";
+import { handleFetchOrders } from "./orderAction";
+import { Order, OrderItem, OrderContextType } from "./orderTypes"
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [orders, setOrders] = useState<Order[]>([]);
+    log("order history context",orders)
 
     const fetchOrders = async () => {
-        try {
-            const token = localStorage.getItem("jwt_token");
-            if (!token) {
-                console.error("User not logged in");
-                return;
-            }
-    
-            const response = await axios.get<{ orders: Order[] }>("/api/orders", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-    
-            // ✅ Ensure response.data.orders exists and is an array
-            if (response.data && Array.isArray(response.data.orders)) {
-                setOrders(response.data.orders);
-            } else {
-                console.warn("Invalid orders data received:", response.data);
-                setOrders([]); // Fallback to empty array
-            }
-        } catch (error) {
-            console.error("Error fetching orders", error);
-            setOrders([]); // Fallback to empty array in case of error
-        }
+
+        const orders = await handleFetchOrders();
+        setOrders(orders);
     };
+
 
     const addOrder = async (items: OrderItem[], totalPrice: number) => {
         try {

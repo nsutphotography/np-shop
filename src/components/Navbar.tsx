@@ -17,6 +17,17 @@ const Navbar: React.FC = () => {
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           E-Commerce App
         </Typography>
+        {import.meta.env.VITE_MODE === "development" && (
+          <>
+            <Button color="inherit" component={Link} to="/order/summary">
+              Order Summary
+            </Button>
+            <Button color="inherit" component={Link} to="/order/history">
+              Order History
+            </Button>
+          </>
+        )}
+
         <Button color="inherit" component={Link} to="/">
           Home
         </Button>

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button, Tooltip } from '@mui/material';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useNavigate } from "react-router-dom";
 
 import debugLib from 'debug';
 import { CartContext } from '../../context/CartContext/CartContext';
@@ -21,7 +22,7 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [tooltipText, setTooltipText] = useState("Click to copy");
-
+  const navigate = useNavigate();
     const handleCopy = () => {
         const testCardDetails = "4242 4242 4242 4242 | Exp: 12/34 | CVC: 123";
         navigator.clipboard.writeText(testCardDetails);
@@ -71,6 +72,7 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
                     0
                 );
                 addOrder(cart.items, totalPrice,)
+                navigate("/order/summary");
                 // await saveOrderDetails(currentUser.id, cart, deliveryAddress, paymentIntent);
             }
         } catch (error) {
