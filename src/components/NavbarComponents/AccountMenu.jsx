@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-
+import { useAuth } from '../../context/AuthContext/AuthContext';
+import log from "../../debugging/debug"
 const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { user } = useAuth()
+  log("user data got in nav ", user)
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,7 +24,9 @@ const AccountMenu = () => {
         aria-haspopup="true"
         onClick={handleMenuClick}
       >
-        <Typography>Account</Typography>
+        <Typography>
+          {user?.email ? user.email : "Account"}
+        </Typography>
       </IconButton>
       <Menu
         id="account-menu"

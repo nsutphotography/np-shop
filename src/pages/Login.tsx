@@ -9,9 +9,11 @@ import {
   AlertTitle,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { handleLoginUser } from "../services/loginService"; // Import the service
+import { useAuth } from "../context/AuthContext/AuthContext";
+// import { handleLoginUser } from "../services/loginService"; // Import the service
 
 const Login:React.FC = () => {
+  const {login}=useAuth()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +26,7 @@ const Login:React.FC = () => {
     setSuccess(null); // Clear any previous success messages
 
     try {
-      const data = await handleLoginUser(email, password); // Call the login service
+      const data = await login(email, password); // Call the login service
       console.log('Login successful:', data);
 
       // Set success message

@@ -1,5 +1,7 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode, useContext } from "react";
 import {User,AuthContextType} from "./authTypes"
+import { handleFetchUserDetails, handleLoginUser } from "./authAction";
+import log from "../../debugging/debug";
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -10,29 +12,25 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+    log("user data",user)
+    log("token here",token)
 
     useEffect(() => {
         if (token) {
+            log("fetch user data is called with token",token)
             fetchUserDetails();
         }
     }, [token]);
 
     const fetchUserDetails = async () => {
-        try {
-            const res = await fetch("/api/user", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const data: User = await res.json();
-            setUser(data);
-        } catch (error) {
-            console.error("Error fetching user", error);
-        }
+        await handleFetchUserDetails({setUser})
+        
     };
 
-    const login = (newToken: string, userData: User) => {
-        setToken(newToken);
-        setUser(userData);
-        localStorage.setItem("token", newToken);
+    const login = async(email: string, password: string) => {
+        await handleLoginUser({email,password,setUser})
+        log("user data",user)
+
     };
 
     const logout = () => {
@@ -48,3 +46,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 };
 
+export const useAuth = ()=>{
+    const context = useContext(AuthContext);
+    if(!context){
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
+}
