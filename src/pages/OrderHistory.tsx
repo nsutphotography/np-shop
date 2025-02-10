@@ -50,9 +50,9 @@ const OrderHistory: React.FC = () => {
                                                 <TableRow key={index}>
                                                     <TableCell>{item.productId._id}</TableCell>
                                                     <TableCell>{item.productId.name}</TableCell>
-                                                    <TableCell>{item.productId.description}</TableCell>
+                                                    {/* <TableCell>{item.productId.description}</TableCell> */}
                                                     <TableCell>{item.productId.price}</TableCell>
-                                                    <TableCell>{item.productId.imageUrl}</TableCell>
+                                                    {/* <TableCell>{item.productId.imageUrl}</TableCell> */}
                                                     <TableCell>{item.quantity}</TableCell>
                                                 </TableRow>
                                             ))}
