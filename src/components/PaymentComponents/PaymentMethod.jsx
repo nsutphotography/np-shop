@@ -1,24 +1,34 @@
 import React, { useContext, useState } from 'react';
-import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio, Button, Tooltip } from '@mui/material';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 import debugLib from 'debug';
 import { CartContext } from '../../context/CartContext/CartContext';
 import { AddressContext } from '../../context/AddressContext/AddressContext';
 import { handleConfirmPayment, handleFetchClientSecret } from '../../services/paymentService';
+import { useOrder } from '../../context/OrderContext/OrderContext';
 
 const log = debugLib('app:payment:method');
 
 const PaymentMethod = ({ onPaymentMethodSelect }) => {
+    const { addOrder } = useOrder()
     const { cart } = useContext(CartContext);
-    const {addresses} = useContext(AddressContext)
-log("addresses all",addresses)
+    const { addresses } = useContext(AddressContext)
+    log("addresses all", addresses)
     const [selectedMethod, setSelectedMethod] = useState('card');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const stripe = useStripe();
     const elements = useElements();
+    const [tooltipText, setTooltipText] = useState("Click to copy");
+  const navigate = useNavigate();
+    const handleCopy = () => {
+        const testCardDetails = "4242 4242 4242 4242 | Exp: 12/34 | CVC: 123";
+        navigator.clipboard.writeText(testCardDetails);
+        setTooltipText("Copied!");
+        setTimeout(() => setTooltipText("Click to copy"), 2000);
+    };
 
     const handleMethodChange = (event) => {
         setSelectedMethod(event.target.value);
@@ -42,9 +52,9 @@ log("addresses all",addresses)
 
             // Step 1: Fetch clientSecret from backend
             log('Fetching clientSecret from backend.');
-            log("cart passing to the backend for payment",cart)
+            log("cart passing to the backend for payment", cart)
             // log("address passing to the backend for payment",deliveryAddress)
-            const clientSecret = await handleFetchClientSecret(cart,addresses);
+            const clientSecret = await handleFetchClientSecret(cart, addresses);
 
             if (!clientSecret) {
                 throw new Error('Failed to get client secret from backend.');
@@ -57,6 +67,12 @@ log("addresses all",addresses)
             if (paymentIntent.status === 'succeeded') {
                 log('Payment successful:', paymentIntent);
                 alert("done")
+                const totalPrice = cart.items.reduce(
+                    (sum, item) => sum + item.productId.price * item.quantity,
+                    0
+                );
+                addOrder(cart.items, totalPrice,)
+                navigate("/order/summary");
                 // await saveOrderDetails(currentUser.id, cart, deliveryAddress, paymentIntent);
             }
         } catch (error) {
@@ -78,8 +94,43 @@ log("addresses all",addresses)
                 </RadioGroup>
             </FormControl>
             {selectedMethod === 'card' && (
+
                 <Box mt={2}>
-                    <CardElement options={{ hidePostalCode: true }} />
+                    <CardElement
+                        options={{
+                            style: {
+                                base: {
+                                    fontSize: '16px',
+                                    color: '#424770',
+                                    '::placeholder': {
+                                        color: '#aab7c4',
+                                    },
+                                },
+                                invalid: {
+                                    color: '#9e2146',
+                                },
+                            },
+                            hidePostalCode: true,
+                        }}
+                        onReady={(element) => {
+                            if (isDevelopment) {
+                                console.log('Development mode detected, but card details cannot be prefilled.');
+                            }
+                        }}
+                    />
+                    {import.meta.env.VITE_MODE==="development" && (
+                        <Tooltip title={tooltipText} arrow>
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                mt={2}
+                                sx={{ cursor: "pointer", userSelect: "none" }}
+                                onClick={handleCopy}
+                            >
+                                <strong>Test Card:</strong> 4242 4242 4242 4242 | Exp: 12/34 | CVC: 123
+                            </Typography>
+                        </Tooltip>
+                    )}
                 </Box>
             )}
             {errorMessage && (

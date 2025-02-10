@@ -1,5 +1,6 @@
 import { Button, Typography, Paper } from "@mui/material";
 import log from "../debugging/debug";
+import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
   log("hola form home page");
@@ -8,7 +9,7 @@ const Home: React.FC = () => {
       <Typography variant="h3" gutterBottom>
         Welcome to Our Store
       </Typography>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" component={Link} to="/products">
         Shop Now
       </Button>
     </Paper>
