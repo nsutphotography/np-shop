@@ -5,10 +5,11 @@ import { useAuth } from '../../context/AuthContext/AuthContext';
 import log from "../../debugging/debug"
 const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   log("user data got in nav ", user)
 
   const handleMenuClick = (event) => {
+    // logout();
     setAnchorEl(event.currentTarget);
   };
 
@@ -34,15 +35,36 @@ const AccountMenu = () => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem component={Link} to="/login" onClick={handleMenuClose}>
-          Login
-        </MenuItem>
-        <MenuItem component={Link} to="/signup" onClick={handleMenuClose}>
-          Sign Up
-        </MenuItem>
-        <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
-          Profile
-        </MenuItem>
+        {
+          user?
+            <>
+              <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
+                Profile
+              </MenuItem>
+              <MenuItem component={Link} to="/order/history" onClick={handleMenuClose}>
+                order history
+              </MenuItem>
+              <MenuItem component={Link} to="/login"
+                onClick={() => {
+                  logout();
+                  handleMenuClose()
+                }}
+              >
+                logout
+              </MenuItem>
+            </>
+            :
+            <>
+              <MenuItem component={Link} to="/login" onClick={handleMenuClose}>
+                Login
+              </MenuItem>
+              <MenuItem component={Link} to="/signup" onClick={handleMenuClose}>
+                Sign Up
+              </MenuItem>
+            </>
+        }
+
+
       </Menu>
     </div>
   );
