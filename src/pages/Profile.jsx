@@ -1,58 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid, Card, CardContent, Alert, Box } from '@mui/material';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext/AuthContext';
+import { useAddress } from '../context/AddressContext/AddressContext';
+import ShowAddressList from '../components/AddressComponent/ShowAddressList';
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null);
-  const [addresses, setAddresses] = useState([]);
+  // const [user, setUserData] = useState(null);
+  // const [addresses, setAddresses] = useState([]);
   const [error, setError] = useState('');
+  const {user}=useAuth()
+  const {addresses}=useAddress()
 
-  // Function to fetch user profile data
-  const fetchProfileData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('User not logged in');
-      }
 
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/user/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setUserData(response.data);
-    } catch (err) {
-      console.error('Error fetching profile data:', err);
-      setError('Failed to load profile data. Please try again later.');
-    }
-  };
-
-  // Function to fetch user address data
-  const fetchAddressData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('User not logged in');
-      }
-
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/addresses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setAddresses(response.data);
-    } catch (err) {
-      console.error('Error fetching address data:', err);
-      setError('Failed to load address data. Please try again later.');
-    }
-  };
-
-  useEffect(() => {
-    fetchProfileData();
-    fetchAddressData();
-  }, []);
 
   return (
     <Box sx={{ padding: '20px' }}>
@@ -72,10 +32,10 @@ const Profile = () => {
               <Typography variant="h6" gutterBottom>
                 Profile Information
               </Typography>
-              {userData ? (
+              {user ? (
                 <>
-                  <Typography variant="body2">Name: {userData.name}</Typography>
-                  <Typography variant="body2">Email: {userData.email}</Typography>
+                  <Typography variant="body2">Name: {user.name}</Typography>
+                  <Typography variant="body2">Email: {user.email}</Typography>
                 </>
               ) : (
                 <Typography variant="body2">Loading profile information...</Typography>
@@ -92,44 +52,7 @@ const Profile = () => {
             </Typography>
           </Grid>
         )}
-        {addresses.map((address) => (
-          <Grid item xs={12} sm={6} md={4} key={address._id}>
-            <Card>
-              <CardContent>
-                <Typography variant="body2">
-                  <strong>Street:</strong> {address.userId}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Street:</strong> {address._id}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Street:</strong> {address.street}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>City:</strong> {address.city}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>State:</strong> {address.state}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Country:</strong> {address.country}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Postal Code:</strong> {address.postalCode}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Default:</strong> {address.isDefault ? 'Yes' : 'No'}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-                  <strong>Created At:</strong> {new Date(address.createdAt).toLocaleDateString()}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-                  <strong>Updated At:</strong> {new Date(address.updatedAt).toLocaleDateString()}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+        <ShowAddressList />
       </Grid>
     </Box>
   );

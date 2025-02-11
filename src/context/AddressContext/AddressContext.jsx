@@ -34,3 +34,11 @@ export const AddressProvider = ({ children }) => {
         </AddressContext.Provider>
     );
 };
+
+export const useAddress = ()=>{
+    const context = useContext(AddressContext);
+    if(!context){
+        throw new Error("useAddress must be used within an AuthProvider");
+    }
+    return context;
+}
