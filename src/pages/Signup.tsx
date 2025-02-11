@@ -3,12 +3,14 @@ import { TextField, Button, Typography, Paper, Alert, AlertTitle, Box } from "@m
 import GoogleLoginButton from "../components/LoginComponents/GoogleLoginButton";
 import { log } from "../debugging/debug";
 import { handleUserSignup } from "../services/signupService";
+import { useNavigate } from "react-router-dom";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   console.log("herr hola");
   log("hola");
@@ -23,6 +25,7 @@ const Signup: React.FC = () => {
       setSuccess("Registration successful! You can now log in.");
       setEmail("");
       setPassword("");
+      setTimeout(() => navigate("/login"), 2000); 
     } else {
       setError(result.message);
     }
