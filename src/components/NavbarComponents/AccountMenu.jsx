@@ -43,6 +43,9 @@ const AccountMenu = () => {
         <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
           Profile
         </MenuItem>
+        <MenuItem component={Link} to="/order/history" onClick={handleMenuClose}>
+          order history
+        </MenuItem>
       </Menu>
     </div>
   );
