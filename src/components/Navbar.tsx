@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, useMediaQuery, Theme } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import debugLib from 'debug';
 import CartInNavbar from './CartInNavbar';
 import ThemeToggleButton from './NavbarComponents/ThemeToggleButton';
@@ -11,13 +11,17 @@ const debug = debugLib('app:navbar');
 
 const Navbar: React.FC = () => {
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+  const navigate = useNavigate(); // Hook for navigation
 
   return (
     <AppBar position="sticky">
       <Toolbar className={isSmallScreen ? "navbar navbar-small" : "navbar"}>
         {/* np shop is always at the top */}
         <Typography variant="h6" className="brand">
+          <div className='npshop'  onClick={() => navigate("/")}>
+
           np shop
+          </div>
         </Typography>
 
         {/* Different layouts for small and large screens */}
