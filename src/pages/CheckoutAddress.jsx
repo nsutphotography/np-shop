@@ -33,7 +33,7 @@ const CheckoutAddressPage = () => {
           checkout
         </Button>
       </Box>
-      <AddAddressPopup />
+      {/* <AddAddressPopup /> */}
 
       <ShowAddressList />
       <Box

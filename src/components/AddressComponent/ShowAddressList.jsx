@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Box, Typography,Button } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { AddressContext } from '../../context/AddressContext/AddressContext';
 import AddressCard from './AddressCard';
 import EditAddressForm from './EditAddressForm';
+import AddAddressPopup from './AddAddressPopup';
 
 const ShowAddressList = () => {
     const { addresses, updateDefaultAddress } = useContext(AddressContext);
@@ -39,23 +40,25 @@ const ShowAddressList = () => {
         updateDefaultAddress(addressId)
         // Execute your function with the addressId here
         // For example, call handleUpdateDefaultAddress(addressId) if you want to update the default address
-      };
+    };
 
-      return (
+    return (
         <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-          {sortedAddresses.map((address, index) => (
-          
-              <AddressCard key={index} address={address} index={index} onEdit={handleEditAddress} onClick={handleUpdateDefaultAddressClick} />
 
-          ))}
-          <EditAddressForm
-            open={dialogOpen}
-            address={selectedAddress}
-            onClose={handleClose}
-            onSave={handleSave}
-          />
+<AddAddressPopup />
+            {sortedAddresses.map((address, index) => (
+
+                <AddressCard key={index} address={address} index={index} onEdit={handleEditAddress} onClick={handleUpdateDefaultAddressClick} />
+
+            ))}
+            <EditAddressForm
+                open={dialogOpen}
+                address={selectedAddress}
+                onClose={handleClose}
+                onSave={handleSave}
+            />
         </Box>
-      );
+    );
 };
 
 export default ShowAddressList;
