@@ -19,7 +19,7 @@ const AddressCard = ({ address, index, onEdit, onClick }) => {
                     {address.isDefault ? 'Default Address' : `Address ${index + 1}`}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    {address.street}, {address.city}, {address.state}, {address.country}, {address.postalCode}
+                    {address.street}, {address.city}, {address.state}, {address.country}, {address.postalCode},{address.label}
                 </Typography>
                 {import.meta.env.VITE_MODE === "development" && (
                     <Typography

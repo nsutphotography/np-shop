@@ -43,7 +43,7 @@ const AddressDisplayForPayment: React.FC = () => {
     <Box sx={{ border: import.meta.env.VITE_MODE === "development" ? "1px solid red" : "none" }} display="flex" justifyContent="center" alignItems="center" mt={4}>
       <Paper elevation={3} sx={{  width: '100%', padding: 3, maxWidth: 600, border: import.meta.env.VITE_MODE === "development" ? "1px solid red" : "none" }}>
         <Typography variant="h6" gutterBottom>
-          Default Address
+          Shipping Address
         </Typography>
         <Typography variant="body1" gutterBottom>
           {defaultAddress.street}, {defaultAddress.city}, {defaultAddress.state}, {defaultAddress.country}, {defaultAddress.postalCode}

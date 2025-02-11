@@ -8,6 +8,7 @@ export interface Product {
 }
 
 export interface OrderItem {
+    _id: number;
     productId: Product;
     quantity: number;
 }

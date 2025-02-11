@@ -36,13 +36,16 @@ const AccountMenu = () => {
         onClose={handleMenuClose}
       >
         {
-          user?
+          user ?
             <>
               <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
                 Profile
               </MenuItem>
               <MenuItem component={Link} to="/order/history" onClick={handleMenuClose}>
                 order history
+              </MenuItem>
+              <MenuItem component={Link} to="/order/summary" onClick={handleMenuClose}>
+                latest order summary
               </MenuItem>
               <MenuItem component={Link} to="/login"
                 onClick={() => {
@@ -64,6 +67,9 @@ const AccountMenu = () => {
             </>
         }
 
+        <MenuItem component={Link} to="/products" onClick={handleMenuClose}>
+          products
+        </MenuItem>
 
       </Menu>
     </div>
