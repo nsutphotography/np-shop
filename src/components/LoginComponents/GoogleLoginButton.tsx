@@ -5,40 +5,41 @@ import { log } from "../../debugging/debug";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {  useGAuth } from "../../context/GAuthContext/GAuthContext";
+import {  useAuth } from "../../context/AuthContext/AuthContext";
 
 const GoogleLoginButton = () => {
-  const {login} = useGAuth();
+  const {continueWithGoogle} = useAuth();
   const navigate = useNavigate();
 
-  if (!login) {
+  if (!continueWithGoogle) {
     throw new Error("GoogleAuthContext must be used within GoogleAuthProvider");
   }
 
-  // const { login } = login;
+  // const { glogin } = glogin;
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (response) => {
-      log("Google login response:", response);
-      log("Google login code:", response.code);
+      log("Google glogin response:", response);
+      log("Google glogin code:", response.code);
 
       try {
         const { data } = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}/auth/google/callback`,
+          `${import.meta.env.VITE_BASE_URL}/auth/google`,
           { code: response.code }
         );
 
-        console.log("Login Success:", data);
-        login(data); // Use the context login function
+        console.log("glogin Success:", data);
+        continueWithGoogle(data); // Use the context glogin function
         navigate("/products");
 
       } catch (error) {
-        console.error("Login Failed:", error);
+        console.error("glogin Failed:", error);
       }
     },
     onError: (error) => {
-      console.error("Google Login Failed:", error);
+      console.error("Google glogin Failed:", error);
     },
-    flow: "auth-code", // Use Authorization Code Flow
+    flow: "auth-code",
     ux_mode: "popup",
   });
 

@@ -1,22 +1,22 @@
 import { createContext, useState, useEffect, ReactNode, useContext } from "react";
 
-interface User {
+interface guser {
   email: string;
   profileImage: string;
   _id: string;
 }
 
 interface GAuthContextType {
-  user: User | null;
+  guser: guser | null;
   gToken: string | null;
-  login: (data: { "g-token": string; user: User }) => void;
-  logout: () => void;
+  glogin: (data: { "g-token": string; guser: guser }) => void;
+  glogout: () => void;
 }
 
 export const GAuthContext = createContext<GAuthContextType | undefined>(undefined);
 
 export const GAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [guser, setGUser] = useState<guser | null>(null);
   const [gToken, setGToken] = useState<string | null>(
     localStorage.getItem("g-token") || null
   );
@@ -25,27 +25,27 @@ export const GAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (gToken) {
       const storedUser = localStorage.getItem("g-user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        // setGUser(JSON.parse(storedUser));
       }
     }
   }, [gToken]);
 
-  const login = (data: { "g-token": string; user: User }) => {
+  const glogin = (data: { "g-token": string; guser: guser }) => {
     localStorage.setItem("g-token", data["g-token"]);
-    localStorage.setItem("g-user", JSON.stringify(data.user));
-    setGToken(data["g-token"]);
-    setUser(data.user);
+    localStorage.setItem("g-guser", JSON.stringify(data.guser));
+    // setGToken(data["g-token"]);
+    // setGUser(data.guser);
   };
 
-  const logout = () => {
+  const glogout = () => {
     localStorage.removeItem("g-token");
-    localStorage.removeItem("g-user");
-    setGToken(null);
-    setUser(null);
+    localStorage.removeItem("g-guser");
+    // setGToken(null);
+    // setGUser(null);
   };
 
   return (
-    <GAuthContext.Provider value={{ user, gToken, login, logout }}>
+    <GAuthContext.Provider value={{ guser, gToken, glogin, glogout }}>
       {children}
     </GAuthContext.Provider>
   );

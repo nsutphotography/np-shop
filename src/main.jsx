@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import { CartProvider } from './context/CartContext/CartContext.jsx'
+import { CartProvider } from './context/CartContext/CartContext'
 import ThemeProviderComponent from "./context/ThemeContext/ThemeContext.jsx";
 import { AddressProvider } from './context/AddressContext/AddressContext.jsx';
 import GoogleAuthProvider from './context/GoogleAuthProvider';
@@ -12,9 +12,9 @@ import { GAuthProvider } from './context/GAuthContext/GAuthContext';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProviderComponent>
+        <AuthProvider>
       <GAuthProvider>
 
-        <AuthProvider>
 
           <OrderProvider>
 
@@ -28,8 +28,8 @@ createRoot(document.getElementById('root')).render(
             </AddressProvider>
           </OrderProvider>
 
-        </AuthProvider>
       </GAuthProvider>
+        </AuthProvider>
     </ThemeProviderComponent>
   </StrictMode>,
 )
