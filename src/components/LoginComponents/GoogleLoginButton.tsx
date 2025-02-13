@@ -52,7 +52,7 @@ const GoogleLoginButton = () => {
       sx={{ marginTop: 2 }}
       onClick={handleGoogleLogin}
     >
-      Sign in with Google
+      continue with Google
     </Button>
   );
 };
