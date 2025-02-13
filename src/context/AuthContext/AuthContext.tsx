@@ -28,19 +28,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const login = async(email: string, password: string) => {
-        await handleLoginUser({email,password,setUser})
+        await handleLoginUser({email,password,setUser,setToken})
         log("user data",user)
 
     };
+    const continueWithGoogle = (data: { "token": string; user: User }) => {
+        localStorage.setItem("token", data["token"]);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setToken(data["token"]);
+        // setUser(data.user);
+      };
 
     const logout = () => {
+        log("log out clicked")
         setToken(null);
         setUser(null);
         localStorage.removeItem("token");
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>
+        <AuthContext.Provider value={{ user, token, login, logout, continueWithGoogle }}>
             {children}
         </AuthContext.Provider>
     );

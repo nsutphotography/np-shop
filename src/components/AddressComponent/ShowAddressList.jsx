@@ -12,9 +12,13 @@ const ShowAddressList = () => {
 
     if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
         return (
+            <>
             <Typography variant="body1" textAlign="center">
                 No addresses available.
             </Typography>
+            <AddAddressPopup />
+            </>
+
         );
     }
 

@@ -12,7 +12,7 @@ interface Product {
 }
 
 const Products: React.FC = () => {
-  const { cart, addToCart, removeFromCart } = useContext(CartContext);
+  // const { cart, addToCart, removeFromCart } = useContext(CartContext);
   const [productData, setProductData] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>('');

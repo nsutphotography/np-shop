@@ -1,31 +1,35 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import { CartProvider } from './context/CartContext/CartContext.jsx'
+import { CartProvider } from './context/CartContext/CartContext'
 import ThemeProviderComponent from "./context/ThemeContext/ThemeContext.jsx";
 import { AddressProvider } from './context/AddressContext/AddressContext.jsx';
-import GoogleAuthProvider from './context/GoogleAuthProvider.jsx';
+import GoogleAuthProvider from './context/GoogleAuthProvider';
 import { OrderProvider } from './context/OrderContext/OrderContext';
 import { AuthProvider } from './context/AuthContext/AuthContext';
+import { GAuthProvider } from './context/GAuthContext/GAuthContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProviderComponent>
-      <AuthProvider>
+        <AuthProvider>
+      <GAuthProvider>
 
-        <OrderProvider>
 
-          <AddressProvider>
-            <CartProvider>
-              <GoogleAuthProvider>
+          <OrderProvider>
 
-                <App />
-              </GoogleAuthProvider>
-            </CartProvider>
-          </AddressProvider>
-        </OrderProvider>
+            <AddressProvider>
+              <CartProvider>
+                <GoogleAuthProvider>
 
-      </AuthProvider>
+                  <App />
+                </GoogleAuthProvider>
+              </CartProvider>
+            </AddressProvider>
+          </OrderProvider>
+
+      </GAuthProvider>
+        </AuthProvider>
     </ThemeProviderComponent>
   </StrictMode>,
 )

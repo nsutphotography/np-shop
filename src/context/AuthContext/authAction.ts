@@ -6,6 +6,7 @@ interface LoginReq {
     email: string;
     password: string;
     setUser: React.Dispatch<React.SetStateAction<User | null>>
+    setToken: React.Dispatch<React.SetStateAction<string | null>>
 }
 interface HandleLogin {
 
@@ -23,11 +24,12 @@ interface GetUserResponse {
     user: User;
 }
 
-export const handleLoginUser = async ({ email, password, setUser }: LoginReq): Promise<void> => {
+export const handleLoginUser = async ({ email, password, setUser,setToken }: LoginReq): Promise<void> => {
     try {
-        const response = await axios.post<LoginResponse>(`${import.meta.env.VITE_BASE_URL}/user/login`, { email, password });
+        const response = await axios.post<LoginResponse>(`${import.meta.env.VITE_BASE_URL}/auth/login`, { email, password });
         log("login response", response.data)
         localStorage.setItem('token', response.data.token);
+        setToken(response.data.token)
         setUser(response.data.user)
 
         // return response.data;

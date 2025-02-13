@@ -1,48 +1,49 @@
 import React, { useContext } from "react";
 import { Typography, Button, Paper, Alert, CircularProgress, Box } from "@mui/material";
-import { CartContext } from "../context/CartContext/CartContext";
+import { CartContext, useCart } from "../context/CartContext/CartContext";
 import CartPageItemList from "../components/cartPageComponents/CartPageItemList";
 import { Link } from "react-router-dom";
 
-interface CartItem {
-  productId: { price: number };
-  quantity: number;
-}
+// interface CartItem {
+//   productId: { price: number };
+//   quantity: number;
+// }
 
-interface CartContextType {
-  cart: {
-    items: CartItem[];
-    loading: boolean;
-    error: string | null;
-  };
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (item: CartItem) => void;
-}
+// interface CartContextType {
+//   cart: {
+//     items: CartItem[];
+//     loading: boolean;
+//     error: string | null;
+//   };
+//   addToCart: (item: CartItem) => void;
+//   removeFromCart: (item: CartItem) => void;
+// }
 
 const Cart: React.FC = () => {
-  const { cart, addToCart, removeFromCart } = useContext(CartContext) as CartContextType;
+  const {cart} = useCart()
 
+ 
   const calculateTotalAmount = (): string => {
     return cart.items
       .reduce((total, item) => total + item.productId.price * item.quantity, 0)
       .toFixed(2);
   };
 
-  if (cart.loading) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-        <CircularProgress />
-      </Box>
-    );
-  }
+  // if (cart) {
+  //   return (
+  //     <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+  //       <CircularProgress />
+  //     </Box>
+  //   );
+  // }
 
-  if (cart.error) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-        <Alert severity="error">{cart.error}</Alert>
-      </Box>
-    );
-  }
+  // if (cart.error) {
+  //   return (
+  //     <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+  //       <Alert severity="error">{cart.error}</Alert>
+  //     </Box>
+  //   );
+  // }
 
   return (
     <Box>
