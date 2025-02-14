@@ -1,16 +1,7 @@
 import React from "react";
 import { useOrder } from "../context/OrderContext/OrderContext";
-import {
-  Card,
-  CardContent,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Box,
-  Button,
-} from "@mui/material";
+import { Card, CardContent, Typography, List, ListItem, ListItemText, Divider, Box, Button } from "@mui/material";
+import log from "../debugging/debug";
 
 const OrderSummary: React.FC = () => {
   const { orders } = useOrder();
@@ -19,17 +10,9 @@ const OrderSummary: React.FC = () => {
   const latestOrder = orders.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )[0];
-
+  log("latest order on summary page", latestOrder)
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-      // bgcolor="#f5f5f5"
-      
-      p={2}
-    >
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" p={2}>
       <Card sx={{ width: 400, p: 2, boxShadow: 3 }}>
         <CardContent>
           <Typography variant="h5" gutterBottom>
@@ -40,13 +23,8 @@ const OrderSummary: React.FC = () => {
               <React.Fragment key={item._id}>
                 product id : {item.productId._id}
                 <ListItem>
-                  <ListItemText
-                    primary={item.productId.name}
-                    secondary={`Quantity: ${item.quantity} | Price: $${item.productId.price.toFixed(2)}`}
-                  />
-                  <Typography variant="body1">
-                    ${(item.productId.price * item.quantity).toFixed(2)}
-                  </Typography>
+                  <ListItemText primary={item.productId.name} secondary={`Quantity: ${item.quantity} | Price: $${item.productId.price.toFixed(2)}`} />
+                  <Typography variant="body1">${(item.productId.price * item.quantity).toFixed(2)}</Typography>
                 </ListItem>
                 <Divider />
               </React.Fragment>
@@ -57,7 +35,7 @@ const OrderSummary: React.FC = () => {
             <Typography variant="h6">${latestOrder.totalPrice.toFixed(2)}</Typography>
           </Box>
           <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-track order
+            track order
           </Button>
         </CardContent>
       </Card>

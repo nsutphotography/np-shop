@@ -66,12 +66,12 @@ const PaymentMethod = ({ onPaymentMethodSelect }) => {
 
             if (paymentIntent.status === 'succeeded') {
                 log('Payment successful:', paymentIntent);
-                alert("done")
                 const totalPrice = cart.items.reduce(
                     (sum, item) => sum + item.productId.price * item.quantity,
                     0
                 );
                 addOrder(cart.items, totalPrice,)
+                alert("done")
                 navigate("/order/summary");
                 // await saveOrderDetails(currentUser.id, cart, deliveryAddress, paymentIntent);
             }

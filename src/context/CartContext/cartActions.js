@@ -1,9 +1,9 @@
 import axios from "axios";
-import debugLib from "debug";
-const debug = debugLib("app:cart Action");
+
+import log from "../../debugging/debug"
 
 export const handleFetchCart = async (setCart) => {
-    debug("Fetching cart data...");
+    log("Fetching cart data...");
     try {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -17,18 +17,18 @@ export const handleFetchCart = async (setCart) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        debug("fetch cart data", response.data)
+        log("fetch cart data", response.data)
         const items = response.data.items || [];
         const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
         const totalPrice = items.reduce(
             (sum, item) => sum + item.productId.price * item.quantity,
             0
         );
-        // debug("Cart fetched successfully: ", { items, totalQuantity, totalPrice });
+        // log("Cart fetched successfully: ", { items, totalQuantity, totalPrice });
 
         setCart({ items, totalQuantity, totalPrice: totalPrice.toFixed(2), isLoading: false, error: null, });
     } catch (error) {
-        debug("Error fetching cart data: ", error);
+        log("Error fetching cart data: ", error);
         setCart((prev) => ({
             ...prev,
             isLoading: false,
@@ -38,7 +38,7 @@ export const handleFetchCart = async (setCart) => {
 };
 
 export const handleAddToCart = async (productId, setCart) => {
-    debug("Adding item to cart...");
+    log("Adding item to cart...");
     const token = localStorage.getItem("token");
     if (!token) {
         //   setCart((prev) => ({
@@ -58,9 +58,16 @@ export const handleAddToCart = async (productId, setCart) => {
             }
         );
 
-        await handleFetchCart(setCart); // Fetch the updated cart after adding the item
+        log("add response", response.data);
+        const items = response.data.items || [];
+        const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = items.reduce((sum, item) => sum + item.productId.price * item.quantity,0);
+        // log("Cart fetched successfully: ", { items, totalQuantity, totalPrice });
+
+        setCart({ items, totalQuantity, totalPrice: totalPrice.toFixed(2), isLoading: false, error: null, });
+        // await handleFetchCart(setCart); // Fetch the updated cart after adding the item
     } catch (error) {
-        debug("Error adding item to cart: ", error);
+        log("Error adding item to cart: ", error);
         //   setCart((prev) => ({
         //     ...prev,
         //     error: "Failed to add product to cart. Please try again later.",
@@ -70,7 +77,7 @@ export const handleAddToCart = async (productId, setCart) => {
 
 
 export const handleRemoveFromCart = async (productId, cart, setCart) => {
-    debug("Removing item from cart...");
+    log("Removing item from cart...");
     const currentQuantity = cart.totalQuantity
     try {
         if (currentQuantity <= 0) return; // Prevent quantity below 1
@@ -83,7 +90,7 @@ export const handleRemoveFromCart = async (productId, cart, setCart) => {
 
         }
         console.log('Decreasing quantity for product:', productId);
-        await axios.patch(
+        const response = await axios.patch(
             `${import.meta.env.VITE_BASE_URL}/cart/decrease/${productId}`,
             {
                 quantity: 1,
@@ -94,7 +101,18 @@ export const handleRemoveFromCart = async (productId, cart, setCart) => {
                 },
             }
         );
-        await handleFetchCart(setCart)
+        log("remove from cart response", response.data)
+        const items = response.data.items || [];
+        const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = items.reduce(
+            (sum, item) => sum + item.productId.price * item.quantity,
+            0
+        );
+        // log("Cart fetched successfully: ", { items, totalQuantity, totalPrice });
+
+        setCart({ items, totalQuantity, totalPrice: totalPrice.toFixed(2), isLoading: false, error: null, });
+
+        // await handleFetchCart(setCart)
         // setCart((prevCart) =>
         //   prevCart.map((item) =>
         //     item.productId._id === productId

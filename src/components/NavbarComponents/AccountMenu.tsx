@@ -9,8 +9,8 @@ const AccountMenu: React.FC = () => {
   const { user, logout } = useAuth();
   // const {gToken,guser} = useGAuth();
 
-  log("user data got in nav ", user);
-  log("user data got in nav ", user?.profileImage);
+  // log("user data got in nav ", user);
+  // log("user data got in nav ", user?.profileImage);
 
   const handleMenuClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
