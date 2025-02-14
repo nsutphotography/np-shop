@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { handleAddAddress, handleFetchAddresses, handleUpdateDefaultAddress } from "./addressAction";
 
 import debugLib from 'debug';
+import { useAuth } from '../AuthContext/AuthContext';
 const log = debugLib('app:addressContext');
 
 // Create the AddressContext
@@ -11,11 +12,11 @@ export const AddressContext = createContext();
 export const AddressProvider = ({ children }) => {
     const [addresses, setAddresses] = useState([]);
     const [error, setError] = useState('');
-
+const {token}=useAuth();
     // Fetch addresses on initial load
     useEffect(() => {
         handleFetchAddresses(setAddresses);
-    }, []);
+    }, [token]);
 
     // Add an address
     const addAddress = async (newAddress) => {
