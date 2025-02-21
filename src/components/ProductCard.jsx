@@ -15,6 +15,7 @@ const ProductCard = ({ product }) => {
                 component="img"
                 height="140"
                 image={import.meta.env.VITE_MODE === "production" ? product.imageUrl : undefined}
+                // image={product.imageUrl}
                 alt={product.name}
             />
             <CardContent>

@@ -6,6 +6,7 @@ import CartInNavbar from './CartInNavbar';
 import ThemeToggleButton from './NavbarComponents/ThemeToggleButton';
 import AccountMenu from './NavbarComponents/AccountMenu';
 import './Navbar.css'; // Import CSS file
+import SearchBar from './NavbarComponents/ProductSearchButton';
 
 const debug = debugLib('app:navbar');
 
@@ -17,14 +18,18 @@ const Navbar: React.FC = () => {
     <AppBar position="sticky">
       <Toolbar className={isSmallScreen ? "navbar navbar-small" : "navbar"}>
         {/* np shop is always at the top */}
-        <Typography variant="h6" className="brand">
-          <div className='npshop'  onClick={() => navigate("/")}>
+        <Typography variant="h6" className="brand" >
+          <div className='npshop' onClick={() => navigate("/")}>
 
-          np shop
+            np-shop
           </div>
         </Typography>
+        <Typography className='search-button'>
 
-        {/* Different layouts for small and large screens */}
+          <SearchBar />
+        </Typography>
+        {/* <Typography sx={{ flexGrow: 3, display: "flex" ,border: "2px dashed tomato"}}> */}
+
         {isSmallScreen ? (
           <Box className="small-screen-menu">
             <AccountMenu />
@@ -35,15 +40,15 @@ const Navbar: React.FC = () => {
           </Box>
         ) : (
           <>
-            {import.meta.env.VITE_MODE === "development" && (
+            {/* {import.meta.env.VITE_MODE === "development" && (
               <Box className="dev-links">
-                <Button component={Link} to="/login">Login</Button>
-                <Button component={Link} to="/signup">Sign Up</Button>
-                <Button component={Link} to="/profile">Profile</Button>
-                <Button component={Link} to="/order/summary">Order Summary</Button>
-                <Button component={Link} to="/order/history">Order History</Button>
+              <Button component={Link} to="/login">Login</Button>
+              <Button component={Link} to="/signup">Sign Up</Button>
+              <Button component={Link} to="/profile">Profile</Button>
+              <Button component={Link} to="/order/summary">Order Summary</Button>
+              <Button component={Link} to="/order/history">Order History</Button>
               </Box>
-            )}
+              )} */}
 
             <Box className="nav-links">
               <Button color="inherit" component={Link} to="/">Home</Button>
@@ -57,6 +62,7 @@ const Navbar: React.FC = () => {
             </Box>
           </>
         )}
+        {/* </Typography> */}
       </Toolbar>
     </AppBar>
   );
