@@ -7,10 +7,14 @@ import { AddressProvider } from './context/AddressContext/AddressContext.jsx';
 import GoogleAuthProvider from './context/GoogleAuthProvider';
 import { OrderProvider } from './context/OrderContext/OrderContext';
 import { AuthProvider } from './context/AuthContext/AuthContext';
+import { ProductContext, ProductProvider } from './context/ProductContext/ProductContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProviderComponent>
+      {/* <ProductContext> */}
+      <ProductProvider>
+
         <AuthProvider>
 
 
@@ -29,6 +33,8 @@ createRoot(document.getElementById('root')).render(
 
 
         </AuthProvider>
+      </ProductProvider>
+      {/* </ProductContext> */}
     </ThemeProviderComponent>
   </StrictMode>,
 )
