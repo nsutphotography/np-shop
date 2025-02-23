@@ -6,17 +6,17 @@ import EditAddressForm from './EditAddressForm';
 import AddAddressPopup from './AddAddressPopup';
 
 const ShowAddressList = () => {
-    const { addresses, updateDefaultAddress } = useContext(AddressContext);
+    const { addresses, updateDefaultAddress, deleteAddress } = useContext(AddressContext);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
 
     if (!addresses || addresses.length === 0 || !addresses[0].addresses) {
         return (
             <>
-            <Typography variant="body1" textAlign="center">
-                No addresses available.
-            </Typography>
-            <AddAddressPopup />
+                <Typography variant="body1" textAlign="center">
+                    No addresses available.
+                </Typography>
+                <AddAddressPopup />
             </>
 
         );
@@ -49,7 +49,7 @@ const ShowAddressList = () => {
     return (
         <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
 
-<AddAddressPopup />
+            <AddAddressPopup />
             {sortedAddresses.map((address, index) => (
 
                 <AddressCard key={index} address={address} index={index} onEdit={handleEditAddress} onClick={handleUpdateDefaultAddressClick} />

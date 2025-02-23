@@ -3,7 +3,7 @@ import axios from "axios";
 export const handleUserSignup = async (email: string, password: string) => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/user/signup`,
+      `${import.meta.env.VITE_BASE_URL}/auth/signup`,
       { email, password }
     );
     return { success: true, data: response.data };

@@ -1,4 +1,5 @@
 import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 
 import log from "../../debugging/debug"
 
@@ -38,15 +39,15 @@ export const handleFetchCart = async (setCart) => {
 };
 
 export const handleAddToCart = async (productId, setCart) => {
-    log("Adding item to cart...");
+    // const navigate = useNavigate();
+    console.log("Adding item to cart...");
     const token = localStorage.getItem("token");
     if (!token) {
-        //   setCart((prev) => ({
-        //     ...prev,
-        //     error: "You must be logged in to add items to the cart.",
-        //   }));
         return;
     }
+    console.log("Adding item to cart...");
+    
+
     try {
         const response = await axios.post(
             `${import.meta.env.VITE_BASE_URL}/cart/add`,
@@ -58,22 +59,23 @@ export const handleAddToCart = async (productId, setCart) => {
             }
         );
 
-        log("add response", response.data);
+        console.log("Add response", response.data);
         const items = response.data.items || [];
         const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-        const totalPrice = items.reduce((sum, item) => sum + item.productId.price * item.quantity,0);
-        // log("Cart fetched successfully: ", { items, totalQuantity, totalPrice });
+        const totalPrice = items.reduce((sum, item) => sum + item.productId.price * item.quantity, 0);
 
-        setCart({ items, totalQuantity, totalPrice: totalPrice.toFixed(2), isLoading: false, error: null, });
-        // await handleFetchCart(setCart); // Fetch the updated cart after adding the item
+        setCart({ items, totalQuantity, totalPrice: totalPrice.toFixed(2), isLoading: false, error: null });
     } catch (error) {
-        log("Error adding item to cart: ", error);
-        //   setCart((prev) => ({
-        //     ...prev,
-        //     error: "Failed to add product to cart. Please try again later.",
-        //   }));
+        console.error("Error adding item to cart: ", error);
+
+        if (error.response?.status === 401) {
+            console.warn("JWT expired. Redirecting to login...");
+            // localStorage.removeItem("token"); // Remove invalid token
+            window.location.href = "/login";
+        }
     }
 };
+
 
 
 export const handleRemoveFromCart = async (productId, cart, setCart) => {

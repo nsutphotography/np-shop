@@ -58,3 +58,21 @@ export const handleUpdateDefaultAddress = async (setAddresses, addressId) => {
         setError('Failed to update default address. Please try again later.');
     }
 };
+
+
+export const handleDeleteAddress = async (setAddresses, addressId, setError) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('User not logged in');
+  
+      const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/addresses/delete/${addressId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      log("address deleted response", response.data);
+      await handleFetchAddresses(setAddresses);
+    } catch (err) {
+      console.error('Error deleting address:', err);
+      setError('Failed to delete address. Please try again later.');
+    }
+  };
+  

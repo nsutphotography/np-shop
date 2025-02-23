@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 //     loading: boolean;
 //     error: string | null;
 //   };
-//   addToCart: (item: CartItem) => void;
+
 //   removeFromCart: (item: CartItem) => void;
 // }
 
