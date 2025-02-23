@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  Alert,
-  AlertTitle,
-  Box,
-  Stack,
-} from "@mui/material";
+import { TextField, Button, Typography, Paper, Alert, AlertTitle, Box, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext/AuthContext";
 import GoogleLoginButton from "../components/LoginComponents/GoogleLoginButton";
@@ -63,21 +54,8 @@ const Login: React.FC = () => {
         )}
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
-            <TextField
-              fullWidth
-              label="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <TextField
-              fullWidth
-              type="password"
-              label="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <TextField fullWidth label="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <TextField fullWidth type="password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             <Button variant="contained" color="primary" type="submit" fullWidth>
               Log In
             </Button>
